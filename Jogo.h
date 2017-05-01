@@ -1,5 +1,6 @@
 #pragma once
 #include "libUnicornio.h"
+#include "SceneManager.h"
 
 class Jogo
 {
@@ -11,5 +12,7 @@ public:
 	void finalizar();
 
 	void executar();
+private:
+    SceneManager *sceneManager;
 };
 
