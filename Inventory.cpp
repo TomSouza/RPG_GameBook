@@ -35,7 +35,7 @@ bool Inventory::pickUp(Item newItem)
 
 }
 
-bool Inventory::discart(int discart)
+void Inventory::discart(int discart)
 {
     backpack[discart].~Item();
 }

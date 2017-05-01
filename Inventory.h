@@ -14,5 +14,5 @@ public:
 
     Item showItens();
     bool pickUp(Item);
-    bool discart(int);
+    void discart(int);
 };
