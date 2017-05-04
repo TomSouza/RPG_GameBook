@@ -9,13 +9,11 @@ public:
 
     void start();
     void finish();
+    Scenes update();
 
 private:
-    void update();
     void draw();
     void buttomEvents();
-
-    int teste = 0;
 
     BotaoSprite newGame;
     BotaoSprite loadGame;

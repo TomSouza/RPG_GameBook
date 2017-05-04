@@ -36,14 +36,16 @@ MainMenu::~MainMenu()
 
 void MainMenu::start()
 {
-    update();
+    sceneChange = KEEP;
+    started = true;
 }
 
 void MainMenu::finish()
 {
+    started = false;
 }
 
-void MainMenu::update()
+Scenes MainMenu::update()
 {
     newGame.atualizar();
     loadGame.atualizar();
@@ -51,11 +53,9 @@ void MainMenu::update()
 
     buttomEvents();
 
-    if (newGame.estaClicado()) {
-        teste++;
-    }
-
     draw();
+
+    return sceneChange;
 }
 
 void MainMenu::draw()
@@ -68,13 +68,15 @@ void MainMenu::draw()
     newGame.desenhar();
     loadGame.desenhar();
     exitGame.desenhar();
-
-    gDebug.depurar("Cliques", teste);
 }
 
 void MainMenu::buttomEvents()
 {
     if (exitGame.estaClicado()) {
         gEventos.sair = true;
+    }
+
+    if (loadGame.estaClicado()) {
+        sceneChange = INTRO;
     }
 }
