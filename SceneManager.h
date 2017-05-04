@@ -1,9 +1,6 @@
 #pragma once
 #include "MainMenu.h"
-
-enum Scenes {
-    INTRO, MAIN_MENU
-};
+#include "Intro.h"
 
 class SceneManager
 {
@@ -16,11 +13,8 @@ public:
 
 private:
     Scene *actualScene = NULL;
+    Scenes actual;
+
     MainMenu menu;
-
-    Sprite lib, bee;
-    double introTime = 0.0;
-    int logoPos = 0;
-
-    void showIntro();
+    Intro introduction;
 };
