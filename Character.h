@@ -5,10 +5,10 @@ class Character
 {
 protected:
     //Attributes
-    int strength, ability, endurance, armor, fire_power;
+    int strength = 0, ability = 0, endurance = 0, armor = 0, fire_power = 0;
     // Combat
-    int AP, DP;
-    int hp, mp;
+    int AP = 0, DP = 0;
+    int hp = 0, mp = 0;
 
     int experience = 0;
 
