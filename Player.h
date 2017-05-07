@@ -13,6 +13,29 @@ public:
 
     int attack();
     void defend(int damage);
+    int getUsablePoints();
+    void create();
 
-    Class playerClass;
+    void setStrength(int);
+    int getStrength();
+
+    void setAbility(int);
+    int getAbility();
+
+    void setEndurance(int);
+    int getEndurance();
+
+    void setArmor(int);
+    int getArmor();
+
+    void setFirePower(int);
+    int getFirePower();
+
+    int getPointsToUse();
+
+    int maxNameSize = 20;
+    Class playerClass = WARRIOR;
+private:
+    int pointsToUse = 12;
+    string* name;
 };
