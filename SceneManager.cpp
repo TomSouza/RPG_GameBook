@@ -19,19 +19,20 @@ void SceneManager::runScene()
 
 void SceneManager::setScene(Scenes scene)
 {
+    if (scene != KEEP && actualScene != NULL) {
+        actualScene->finish();
+    }
+
     switch (scene)
     {
     case INTRO:
-        if (actualScene != NULL) {
-            actualScene->finish();
-        }
         actualScene = &introduction;
         break;
     case MAIN_MENU:
-        if (actualScene != NULL) {
-            actualScene->finish();
-        }
         actualScene = &menu;
+        break;
+    case PAUSE_MENU:
+        actualScene = &options;
         break;
     case KEEP:
     default:

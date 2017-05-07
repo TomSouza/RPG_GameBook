@@ -1,4 +1,5 @@
 #pragma once
+#include "PauseMenu.h"
 #include "MainMenu.h"
 #include "Intro.h"
 
@@ -15,6 +16,7 @@ private:
     Scene *actualScene = NULL;
     Scenes actual;
 
+    PauseMenu options;
     MainMenu menu;
     Intro introduction;
 };
