@@ -10,7 +10,7 @@ protected:
     int AP, DP;
     int hp, mp;
 
-    int experience;
+    int experience = 0;
 
     Inventory *inventory = NULL;
 
@@ -19,6 +19,9 @@ public:
     ~Character();
 
     virtual int attack() = 0;
-    virtual void defend(int dano) = 0;
+    virtual void defend(int damage) = 0;
+
+    int getAP();
+    int getDP();
 };
 
