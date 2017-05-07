@@ -17,6 +17,6 @@ private:
     double introTime;
     int logoPos;
 
-    void showIntro();;
+    void showIntro();
 };
 
