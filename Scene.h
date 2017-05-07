@@ -1,6 +1,6 @@
 #pragma once
 #include "libUnicornio.h"
-#include "Player.h"
+#include "AppModel.h"
 
 enum Scenes {
     KEEP, INTRO, MAIN_MENU, PAUSE_MENU
@@ -23,7 +23,6 @@ protected:
 
     Sprite background;
     Scenes sceneChange;
-
-    static Player* player;
+    AppModel model;
 };
 
