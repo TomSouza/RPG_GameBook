@@ -32,7 +32,10 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="AppModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -58,6 +61,12 @@
     </Filter>
     <Filter Include="Source Files\Characters">
       <UniqueIdentifier>{e3b4a8c5-bee7-4741-b0f8-bd810c8c55da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{7021943b-eea8-42fa-a179-2474351dc31d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{e2e1945e-5811-4501-a4eb-c8022ffb3c3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +100,9 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="AppModel.h" />
   </ItemGroup>
 </Project>
