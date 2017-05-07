@@ -1,8 +1,9 @@
 #pragma once
 #include "libUnicornio.h"
+#include "Player.h"
 
 enum Scenes {
-    KEEP, INTRO, MAIN_MENU
+    KEEP, INTRO, MAIN_MENU, PAUSE_MENU
 };
 
 class Scene
@@ -11,15 +12,18 @@ public:
     Scene();
     ~Scene();
 
+    bool started = false;
+
     virtual void start() = 0;
     virtual void finish() = 0;
     virtual Scenes update() = 0;
 
-    bool started = false;
 protected:
     virtual void draw() = 0;
 
     Sprite background;
     Scenes sceneChange;
+
+    static Player* player;
 };
 
