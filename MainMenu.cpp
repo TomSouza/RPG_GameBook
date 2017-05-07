@@ -72,11 +72,15 @@ void MainMenu::draw()
 
 void MainMenu::buttomEvents()
 {
-    if (exitGame.estaClicado()) {
-        gEventos.sair = true;
+    if (newGame.estaClicado()) {
+        sceneChange = PAUSE_MENU;
     }
 
     if (loadGame.estaClicado()) {
         sceneChange = INTRO;
+    }
+
+    if (exitGame.estaClicado()) {
+        gEventos.sair = true;
     }
 }
