@@ -62,8 +62,32 @@ PauseMenu::PauseMenu()
         pos += 40;
     }
 
+    gRecursos.carregarSpriteSheet("warrior", "assets/buttons/warrior_class.png", 3, 1);
+    warrior.setSpriteSheet("warrior");
+
+    gRecursos.carregarSpriteSheet("mage", "assets/buttons/mage_class.png", 3, 1);
+    mage.setSpriteSheet("mage");
+
+    gRecursos.carregarSpriteSheet("rogue", "assets/buttons/rogue_class.png", 3, 1);
+    rogue.setSpriteSheet("rogue");
+
     gRecursos.carregarSpriteSheet("confirm", "assets/buttons/confirm.png", 3, 1);
     confirm.setSpriteSheet("confirm");
+
+    warrior.setPos(
+        gJanela.getLargura() / 2 -100,
+        gJanela.getAltura() / 2 + 140
+    );
+
+    mage.setPos(
+        gJanela.getLargura() / 2,
+        gJanela.getAltura() / 2 + 140
+    );
+
+    rogue.setPos(
+        gJanela.getLargura() / 2 + 100,
+        gJanela.getAltura() / 2 + 140
+    );
 
     confirm.setPos(
         gJanela.getLargura() / 2 + 230,
@@ -126,6 +150,7 @@ void PauseMenu::status()
     if (newGame) {
         inputUpdate();
     }
+
     inputDraw();
 
     showAttributes();
@@ -295,6 +320,59 @@ void PauseMenu::showAttributes()
         minus[i].desenhar();
 
         pos += 40;
+    }
+
+    if (newGame) {
+        warrior.atualizar();
+        mage.atualizar();
+        rogue.atualizar();
+
+        if (warrior.estaClicado()) {
+            player[0]->playerClass = WARRIOR;
+        }
+        else if (mage.estaClicado()) {
+            player[0]->playerClass = MAGE;
+        }
+        else if (rogue.estaClicado()) {
+            player[0]->playerClass = ROGUE;
+        }
+    }
+
+    warrior.setAnimacaoDoEstadoNormal(0);
+    mage.setAnimacaoDoEstadoNormal(0);
+    rogue.setAnimacaoDoEstadoNormal(0);
+
+    switch (player[0]->playerClass)
+    {
+    case WARRIOR:
+        warrior.setAnimacaoDoEstadoNormal(1);
+
+        warrior.desenhar();
+        if (newGame) {
+            mage.desenhar();
+            rogue.desenhar();
+        }
+        break;
+    case MAGE:
+        mage.setAnimacaoDoEstadoNormal(1);
+
+        mage.desenhar();
+        if (newGame) {
+            warrior.desenhar();
+            rogue.desenhar();
+        }
+        break;
+    case ROGUE:
+        rogue.setAnimacaoDoEstadoNormal(1);
+
+        rogue.desenhar();
+        if (newGame) {
+            warrior.desenhar();
+            mage.desenhar();
+        }
+        break;
+    default:
+        break;
     }
 }
 

@@ -24,6 +24,7 @@ private:
 
     void createNewGame();
 
+    /* Status */
     void inputUpdate();
     void inputDraw();
 
@@ -42,6 +43,10 @@ private:
     Texto playerName;
     Texto nameLabel;
     Sprite nameinput;
+
+    BotaoSprite warrior;
+    BotaoSprite mage;
+    BotaoSprite rogue;
 
     BotaoSprite confirm;
 
