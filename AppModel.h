@@ -24,5 +24,12 @@ public:
 
 private:
     int maxSaves = 3;
-};
 
+    void savePlayer(ofstream& save);
+
+    void insertString(ofstream& streamer, string value, int size);
+    void insertInteger(ofstream& streamer, int value);
+    void insertClass(ofstream& streamer, Class value);
+
+    string fillBlankSpaces(string, int);
+};
