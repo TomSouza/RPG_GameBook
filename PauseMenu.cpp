@@ -188,6 +188,7 @@ void PauseMenu::dataManager()
 
 void PauseMenu::createNewGame()
 {
+    player[0]->setName(playerName.getString());
     player[0]->create();
     model.saveBinary("saveData.bee");
 }
