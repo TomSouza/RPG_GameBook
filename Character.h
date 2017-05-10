@@ -21,6 +21,27 @@ public:
     virtual int attack() = 0;
     virtual void defend(int damage) = 0;
 
+    void setStrength(int);
+    int getStrength();
+
+    void setAbility(int);
+    int getAbility();
+
+    void setEndurance(int);
+    int getEndurance();
+
+    void setArmor(int);
+    int getArmor();
+
+    void setFirePower(int);
+    int getFirePower();
+
+    void setHp(int);
+    int getHp();
+
+    void setMp(int);
+    int getMp();
+
     int getAP();
     int getDP();
 };
