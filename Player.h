@@ -13,23 +13,12 @@ public:
 
     int attack();
     void defend(int damage);
+
     int getUsablePoints();
     void create();
 
-    void setStrength(int);
-    int getStrength();
-
-    void setAbility(int);
-    int getAbility();
-
-    void setEndurance(int);
-    int getEndurance();
-
-    void setArmor(int);
-    int getArmor();
-
-    void setFirePower(int);
-    int getFirePower();
+    void setName(string value);
+    string getName();
 
     int getPointsToUse();
 

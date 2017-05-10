@@ -37,64 +37,14 @@ void Player::create()
     DP = ability + armor;
 }
 
-void Player::setStrength(int value)
+void Player::setName(string value)
 {
-    if (value >= 0) {
-        strength = value;
-    }
+    *name = value;
 }
 
-int Player::getStrength()
+string Player::getName()
 {
-    return strength;
-}
-
-void Player::setAbility(int value)
-{
-    if (value >= 0) {
-        ability = value;
-    }
-}
-
-int Player::getAbility()
-{
-    return ability;
-}
-
-void Player::setEndurance(int value)
-{
-    if (value >= 0) {
-        endurance = value;
-    }
-}
-
-int Player::getEndurance()
-{
-    return endurance;
-}
-
-void Player::setArmor(int value)
-{
-    if (value >= 0) {
-        armor = value;
-    }
-}
-
-int Player::getArmor()
-{
-    return armor;
-}
-
-void Player::setFirePower(int value)
-{
-    if (value >= 0) {
-        fire_power = value;
-    }
-}
-
-int Player::getFirePower()
-{
-    return fire_power;
+    return *name;
 }
 
 int Player::getPointsToUse()
