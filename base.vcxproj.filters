@@ -35,7 +35,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="AppModel.cpp" />
+    <ClCompile Include="AppModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -103,6 +105,8 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="AppModel.h" />
+    <ClInclude Include="AppModel.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
