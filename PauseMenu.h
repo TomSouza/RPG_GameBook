@@ -15,8 +15,12 @@ public:
     void finish();
     Scenes update();
 
+    void setNewGame(bool);
+
 private:
     void draw();
+
+    void initStatusResources();
 
     void inventory();
     void status();
@@ -34,6 +38,7 @@ private:
 
     bool newGame;
     BotaoSprite saveLoad[3];
+    Texto loadName[3];
 
     BotaoSprite plus[5];
     BotaoSprite minus[5];

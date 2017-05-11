@@ -2,6 +2,91 @@
 
 PauseMenu::PauseMenu()
 {
+    gRecursos.carregarSpriteSheet("background", "assets/bg/pause_menu.png");
+    background.setSpriteSheet("background");
+
+    initStatusResources();
+
+    gRecursos.carregarSpriteSheet("save", "assets/buttons/newData.png", 3, 1);
+    gRecursos.carregarSpriteSheet("load", "assets/buttons/loadData.png", 3, 1);
+
+    int pos = -100;
+
+    for (int i = 0; i < 3; i++) {
+
+        if (AppModel::slots[i].empty) {
+            saveLoad[i].setSpriteSheet("save");
+        }
+        else {
+            saveLoad[i].setSpriteSheet("load");
+
+            loadName[i].setFonte("gameFont");
+            loadName[i].setCor(0, 0, 0, 255, true);
+            loadName[i].setString(AppModel::slots[i].name);
+        }
+
+        saveLoad[i].setPos(
+            gJanela.getLargura() / 2,
+            gJanela.getAltura() / 2 + pos
+        );
+
+        pos += 100;
+    }
+}
+
+PauseMenu::~PauseMenu()
+{
+}
+
+void PauseMenu::start()
+{
+}
+
+void PauseMenu::finish()
+{
+}
+
+Scenes PauseMenu::update()
+{
+    if (*player == NULL) {
+        actualScreen = DATA_MANAGER;
+    }
+
+    draw();
+
+    switch (actualScreen)
+    {
+    case DATA_MANAGER:
+        dataManager();
+        break;
+    case STATUS:
+        status();
+        break;
+    case INVENTORY:
+        inventory();
+        break;
+    default:
+        break;
+    }
+
+    return sceneChange;
+}
+
+void PauseMenu::setNewGame(bool value)
+{
+    newGame = value;
+}
+
+void PauseMenu::draw()
+{
+    background.desenhar(
+        gJanela.getLargura() / 2,
+        gJanela.getAltura() / 2
+    );
+}
+
+void PauseMenu::initStatusResources()
+{
     gRecursos.carregarSpriteSheet("gameInput", "assets/icons/nameInput.png");
     nameinput.setSpriteSheet("gameInput");
 
@@ -17,29 +102,10 @@ PauseMenu::PauseMenu()
     remainingPoints.setFonte("gameFont");
     remainingPoints.setCor(0, 0, 0, 255, true);
 
-    gRecursos.carregarSpriteSheet("background", "assets/bg/pause_menu.png");
-    background.setSpriteSheet("background");
-
-    gRecursos.carregarSpriteSheet("save", "assets/buttons/newData.png", 3, 1);
-    gRecursos.carregarSpriteSheet("load", "assets/buttons/loadData.png", 3, 1);
-
-    int pos = -100;
-
-    for (int i = 0; i < 3; i++) {
-        saveLoad[i].setSpriteSheet("save");
-
-        saveLoad[i].setPos(
-            gJanela.getLargura() / 2,
-            gJanela.getAltura() / 2 + pos
-        );
-
-        pos += 100;
-    }
-
     gRecursos.carregarSpriteSheet("plus", "assets/buttons/plus.png", 3, 1);
     gRecursos.carregarSpriteSheet("minus", "assets/buttons/minus.png", 3, 1);
 
-    pos = -100;
+    int pos = -100;
 
     for (int i = 0; i < 5; i++) {
         plus[i].setSpriteSheet("plus");
@@ -95,52 +161,6 @@ PauseMenu::PauseMenu()
     );
 }
 
-PauseMenu::~PauseMenu()
-{
-}
-
-void PauseMenu::start()
-{
-}
-
-void PauseMenu::finish()
-{
-}
-
-Scenes PauseMenu::update()
-{
-    if (*player == NULL) {
-        actualScreen = DATA_MANAGER;
-    }
-
-    draw();
-
-    switch (actualScreen)
-    {
-    case DATA_MANAGER:
-        dataManager();
-        break;
-    case STATUS:
-        status();
-        break;
-    case INVENTORY:
-        inventory();
-        break;
-    default:
-        break;
-    }
-
-    return sceneChange;
-}
-
-void PauseMenu::draw()
-{
-    background.desenhar(
-        gJanela.getLargura() / 2,
-        gJanela.getAltura() / 2
-    );
-}
-
 void PauseMenu::inventory()
 {
 }
@@ -175,14 +195,21 @@ void PauseMenu::dataManager()
     for (int i = 0; i < 3; i++) {
         saveLoad[i].atualizar();
 
-        if (saveLoad[i].estaClicado()) {
+        if (
+            saveLoad[i].estaClicado() &&
+            AppModel::slots[i].empty &&
+            newGame
+        ) {
             *player = new Player;
             AppModel::saveSlot = i;
-            newGame = true;
             actualScreen = STATUS;
         }
 
         saveLoad[i].desenhar();
+
+        if (loadName[i].getString().size()) {
+            loadName[i].desenhar(saveLoad[i].getX(), saveLoad[i].getY());
+        }
     }
 }
 
