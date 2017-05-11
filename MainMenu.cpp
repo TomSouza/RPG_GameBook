@@ -28,6 +28,8 @@ MainMenu::MainMenu()
         gJanela.getLargura() / 2,
         gJanela.getAltura() / 2 + 100
     );
+
+    model.checkSlots();
 }
 
 MainMenu::~MainMenu()
@@ -73,11 +75,11 @@ void MainMenu::draw()
 void MainMenu::buttomEvents()
 {
     if (newGame.estaClicado()) {
-        sceneChange = PAUSE_MENU;
+        sceneChange = NEW_GAME;
     }
 
     if (loadGame.estaClicado()) {
-        sceneChange = INTRO;
+        sceneChange = LOAD_GAME;
     }
 
     if (exitGame.estaClicado()) {
