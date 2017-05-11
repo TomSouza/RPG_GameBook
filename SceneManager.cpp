@@ -31,6 +31,14 @@ void SceneManager::setScene(Scenes scene)
     case MAIN_MENU:
         actualScene = &menu;
         break;
+    case NEW_GAME:
+        options.setNewGame(true);
+        actualScene = &options;
+        break;
+    case LOAD_GAME:
+        options.setNewGame(false);
+        actualScene = &options;
+        break;
     case PAUSE_MENU:
         actualScene = &options;
         break;

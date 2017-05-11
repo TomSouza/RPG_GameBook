@@ -16,7 +16,7 @@ private:
     Scene *actualScene = NULL;
     Scenes actual;
 
-    PauseMenu options;
-    MainMenu menu;
     Intro introduction;
+    MainMenu menu;
+    PauseMenu options;
 };
