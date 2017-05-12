@@ -29,7 +29,9 @@ void AppModel::save(const char* file)
 
 void AppModel::saveBinary(const char* file)
 {
-    ofstream save(file, ios::binary);
+    ofstream save(file, ios::in | ios::out | ios::binary);
+
+    save.seekp(saveSlot * slotBites);
 
     savePlayer(save);
 
@@ -44,6 +46,7 @@ void AppModel::loadBinary(const char* file)
 {
     ifstream load(file, ios::binary);
 
+    load.seekg(saveSlot * slotBites);
     loadPlayer(load);
 
     load.close();
@@ -52,19 +55,25 @@ void AppModel::loadBinary(const char* file)
 void AppModel::checkSlots()
 {
     ifstream load("saveData.bee", ios::binary);
-    int verify;
+
+    int verify = 0;
     string* name;
 
     for (int i = 0; i < 3; i++)
     {
         slots[i].slot = i;
 
-        load.seekg(i * slotBites);
-        load.read(reinterpret_cast<char*>(&verify), sizeof(int));
+        if (load) {
+            load.seekg(i * slotBites);
+            load.read(reinterpret_cast<char*>(&verify), sizeof(int));
+        }
 
         if (verify) {
             char *nameBuffer = new char[verify];
-            load.read(nameBuffer, verify);
+
+            if (load) {
+                load.read(nameBuffer, verify);
+            }
 
             slots[i].empty = false;
             name = new string(nameBuffer, verify);
@@ -81,7 +90,9 @@ void AppModel::checkSlots()
         verify = 0;
     }
 
-    load.close();
+    if (load) {
+        load.close();
+    }
 }
 
 void AppModel::savePlayer(ofstream& save)
