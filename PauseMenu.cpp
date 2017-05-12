@@ -167,10 +167,7 @@ void PauseMenu::inventory()
 
 void PauseMenu::status()
 {
-    if (newGame) {
-        inputUpdate();
-    }
-
+    inputUpdate();
     inputDraw();
 
     showAttributes();
@@ -204,6 +201,15 @@ void PauseMenu::dataManager()
             AppModel::saveSlot = i;
             actualScreen = STATUS;
         }
+        else if (
+            saveLoad[i].estaClicado() &&
+            !AppModel::slots[i].empty &&
+            !newGame
+        ) {
+            AppModel::saveSlot = i;
+            model.loadBinary("saveData.bee");
+            actualScreen = STATUS;
+        }
 
         saveLoad[i].desenhar();
 
@@ -222,6 +228,11 @@ void PauseMenu::createNewGame()
 
 void PauseMenu::inputUpdate()
 {
+    if (!newGame) {
+        playerName.setString(player[0]->getName());
+        return;
+    }
+
     if (!gTeclado.inputTexto.estaHabilitado()) {
         gTeclado.inputTexto.habilitar();
     }
