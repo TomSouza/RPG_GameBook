@@ -8,7 +8,8 @@ enum Scenes {
     MAIN_MENU,
     NEW_GAME,
     LOAD_GAME,
-    PAUSE_MENU
+    PAUSE_MENU,
+    NARRATIVE
 };
 
 class Scene

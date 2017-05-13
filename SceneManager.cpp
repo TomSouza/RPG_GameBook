@@ -42,6 +42,9 @@ void SceneManager::setScene(Scenes scene)
     case PAUSE_MENU:
         actualScene = &options;
         break;
+    case NARRATIVE:
+        actualScene = &game;
+        break;
     case KEEP:
     default:
         break;

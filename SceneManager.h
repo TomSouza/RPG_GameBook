@@ -1,7 +1,8 @@
 #pragma once
-#include "PauseMenu.h"
-#include "MainMenu.h"
 #include "Intro.h"
+#include "MainMenu.h"
+#include "PauseMenu.h"
+#include "Narrative.h"
 
 class SceneManager
 {
@@ -19,4 +20,5 @@ private:
     Intro introduction;
     MainMenu menu;
     PauseMenu options;
+    Narrative game;
 };
