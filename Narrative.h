@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "BattleManager.h"
 
 struct optionButton
 {
@@ -30,6 +31,7 @@ public:
 	void finish();
     Scenes update();
 
+
 private:
 	void draw();
 
@@ -37,9 +39,13 @@ private:
     void battle();
 
     void setButtonPosition();
+    void verifyButtons(int option);
 
     int stage;
     int storyLine;
+    void setStage(int stage, int storyLine = 1);
+
+    stageInfo* stageInfo = NULL;
 
     GameState actualState = HISTORY;
 
@@ -48,5 +54,13 @@ private:
 
     optionButton options[3];
     battleButton battleOptions[4];
+
+    Texto playerHealth;
+    Texto enemyHealth;
+    Sprite enemyLabel;
+
+    bool playerTurn;
+
+    BattleManager battleManager;
 };
 

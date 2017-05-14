@@ -3,14 +3,24 @@
 Narrative::Narrative()
 {
     model.load();
-
-    stage = 1;
-    storyLine = 1;
+    setStage(1);
 
 	gRecursos.carregarSpriteSheet("options", "assets/buttons/option.png", 3, 1);
 	gRecursos.carregarSpriteSheet("div", "assets/bg/narrativeDivision.png");
+    gRecursos.carregarSpriteSheet("enemyLabel", "assets/bg/enemyLabel.png");
 
     gRecursos.carregarFonte("buttonFont", "assets/fonts/vineritc.ttf", 14);
+    gRecursos.carregarFonte("descriptionFont", "assets/fonts/vineritc.ttf", 16);
+
+    playerHealth.setFonte("gameFont");
+    playerHealth.setCor(0, 0, 0, 255, true);
+    playerHealth.setLarguraMaxima(150);
+
+    enemyHealth.setFonte("gameFont");
+    enemyHealth.setCor(0, 0, 0, 255, true);
+
+    enemyLabel.setSpriteSheet("enemyLabel");
+    enemyLabel.setEscala(0.8, 0.8);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -28,12 +38,13 @@ Narrative::Narrative()
     setButtonPosition();
 
 	narrativeDiv.setSpriteSheet("div");
+    narrativeDiv.setEscala(1, 1.2);
 
-	narration.setFonte("gameFont");
+	narration.setFonte("descriptionFont");
 	narration.setString("");
 	narration.setCor(0, 0, 0, 255, true);
+    narration.setLarguraMaxima(550);
 }
-
 
 Narrative::~Narrative()
 {
@@ -41,6 +52,9 @@ Narrative::~Narrative()
 
 void Narrative::start()
 {
+    sceneChange = KEEP;
+    started = true;
+    setStage(AppModel::scene[0], AppModel::scene[1]);
 }
 
 void Narrative::finish()
@@ -66,6 +80,30 @@ Scenes Narrative::update()
 	return sceneChange;
 }
 
+void Narrative::setStage(int stage, int storyLine)
+{
+    for (int i = 0; i < AppModel::stageVectorSize; i++)
+    {
+        if (
+            AppModel::stages[i].nivel == stage &&
+            AppModel::stages[i].ident == storyLine
+        ) {
+            stageInfo = &AppModel::stages[i];
+
+            this->stage = stage;
+            this->storyLine = storyLine;
+            break;
+        }
+    }
+
+    if (stageInfo->type == 'm') {
+        actualState = BATTLE;
+    }
+    else if (stageInfo->type == 'h') {
+        actualState = HISTORY;
+    }
+}
+
 void Narrative::draw()
 {
 	narrativeDiv.desenhar(
@@ -76,11 +114,11 @@ void Narrative::draw()
 
 void Narrative::history()
 {
-    narration.setString(AppModel::stages[stage].description);
+    narration.setString(stageInfo->description);
 
     narration.desenhar(
         gJanela.getLargura() / 2,
-        gJanela.getAltura() / 2 + 150
+        gJanela.getAltura() / 2 + 120
     );
 
     for (int i = 0; i < 3; i++)
@@ -88,6 +126,8 @@ void Narrative::history()
         if (options[i].optValue) {
 
             options[i].button.atualizar();
+
+            verifyButtons(i);
 
             options[i].button.desenhar();
             options[i].label.desenhar(
@@ -100,56 +140,141 @@ void Narrative::history()
 
 void Narrative::battle()
 {
-    for (int i = 0; i < 4; i++)
-    {
-        if (!battleOptions[i].action) {
+    if (stageInfo->enemy->getHp() <= 0) {
+        setStage(1);
+        return;
+    }
 
-            battleOptions[i].button.atualizar();
+    if (playerTurn) {
+        for (int i = 0; i < 4; i++)
+        {
+            if (!battleOptions[i].action) {
+                battleOptions[i].button.atualizar();
 
-            battleOptions[i].button.desenhar();
+                verifyButtons(i);
+
+                battleOptions[i].button.desenhar();
+                battleOptions[i].label.desenhar(
+                    battleOptions[i].button.getX(),
+                    battleOptions[i].button.getY()
+                );
+            }
         }
     }
+    else {
+        battleManager.fight(*stageInfo->enemy, *AppModel::player);
+        playerTurn = true;
+    }
+
+    enemyLabel.desenhar(
+        gJanela.getLargura() / 2 + 280,
+        gJanela.getAltura() / 2 - 200
+    );
+
+    enemyHealth.setString(
+        stageInfo->enemy->getName() +
+        "\nHP: " + to_string(stageInfo->enemy->getHp())
+    );
+
+    enemyHealth.desenhar(
+        gJanela.getLargura() / 2 + 280,
+        gJanela.getAltura() / 2 - 200
+    );
+
+    playerHealth.setString(
+        AppModel::player->getName() +
+        "\nHP: " + to_string(AppModel::player->getHp())
+    );
+    playerHealth.desenhar(
+        gJanela.getLargura() / 2 + 250,
+        gJanela.getAltura() / 2 + 150
+    );
 }
 
 void Narrative::setButtonPosition()
 {
-    int marginX = -200;
-    int marginY = 100;
+    if (stageInfo->type == 'm') {
 
-    for (int i = 0; i < 4; i++)
+        int marginX = -150;
+        int marginY = 120;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (!battleOptions[i].action) {
+
+                if (i == 2) {
+                    marginX = -150;
+                    marginY += 80;
+                }
+
+                battleOptions[i].button.setPos(
+                    gJanela.getLargura() / 2 + marginX,
+                    gJanela.getAltura() / 2 + marginY
+                );
+
+                marginX += 200;
+            }
+        }
+
+        battleOptions[0].label.setString("Atacar");
+        battleOptions[1].label.setString("Defender");
+        battleOptions[2].label.setString("Pocao");
+        battleOptions[3].label.setString("Fujir");
+    }
+    else 
     {
-        if (!battleOptions[i].action) {
+        int margin = -200;
 
-            if (i == 2) {
-                marginX = -200;
-                marginY += 80;
+        for (int i = 0; i < 3; i++)
+        {
+            if (!options[i].optValue) {
+                options[i].button.setPos(
+                    gJanela.getLargura() / 2 + margin,
+                    gJanela.getAltura() / 2 + 220
+                );
+
+                options[i].optValue = stageInfo->options[i].value;
+
+                margin += 150;
             }
 
-            battleOptions[i].button.setPos(
-                gJanela.getLargura() / 2 + marginX,
-                gJanela.getAltura() / 2 + marginY
+            options[i].label.setString(
+                stageInfo->options[i].description
             );
-
-            marginX += 100;
         }
     }
+}
 
-    int margin = -200;
+void Narrative::verifyButtons(int option)
+{
+    if (stageInfo->type == 'm') {
+        if (battleOptions[option].button.estaClicado()) {
 
-    for (int i = 0; i < 3; i++)
-    {
-        if (!options[i].optValue) {
-            options[i].button.setPos(
-                gJanela.getLargura() / 2 + margin,
-                gJanela.getAltura() / 2 + 200
-            );
+            switch (option)
+            {
+            case 0:
+                battleManager.fight(*AppModel::player, *stageInfo->enemy);
+                break;
+            case 1:
+                AppModel::player->setTempDefence(
+                    AppModel::player->getDP() / 2
+                );
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+            }
 
-            options[i].label.setString(
-                AppModel::stages[stage].options[i].description
-            );
-            options[i].optValue = AppModel::stages[stage].options[i].value;
-
-            margin += 150;
+            playerTurn = false;
+        }
+    }
+    else {
+        if (options[option].button.estaClicado() == true) {
+            setStage(stage + 1, options[option].optValue);
+            setButtonPosition();
         }
     }
 }
