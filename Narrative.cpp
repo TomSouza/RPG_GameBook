@@ -2,15 +2,26 @@
 
 Narrative::Narrative()
 {
+    model.load();
+
+    stage = 1;
+    storyLine = 1;
+
 	gRecursos.carregarSpriteSheet("options", "assets/buttons/option.png", 3, 1);
 	gRecursos.carregarSpriteSheet("div", "assets/bg/narrativeDivision.png");
+
+    gRecursos.carregarFonte("buttonFont", "assets/fonts/vineritc.ttf", 14);
 
 	for (int i = 0; i < 4; i++)
 	{
 		battleOptions[i].button.setSpriteSheet("options");
+        battleOptions[i].label.setFonte("buttonFont");
+        battleOptions[i].label.setCor(0, 0, 0, 255, true);
 
 		if (i < 3) {
 			options[i].button.setSpriteSheet("options");
+            options[i].label.setFonte("buttonFont");
+            options[i].label.setCor(0, 0, 0, 255, true);
 		}
 	}
 
@@ -65,6 +76,8 @@ void Narrative::draw()
 
 void Narrative::history()
 {
+    narration.setString(AppModel::stages[stage].description);
+
     narration.desenhar(
         gJanela.getLargura() / 2,
         gJanela.getAltura() / 2 + 150
@@ -72,11 +85,15 @@ void Narrative::history()
 
     for (int i = 0; i < 3; i++)
     {
-        if (!options[i].optValue) {
+        if (options[i].optValue) {
 
             options[i].button.atualizar();
 
             options[i].button.desenhar();
+            options[i].label.desenhar(
+                options[i].button.getX(),
+                options[i].button.getY()
+            );
         }
     }
 }
@@ -126,6 +143,11 @@ void Narrative::setButtonPosition()
                 gJanela.getLargura() / 2 + margin,
                 gJanela.getAltura() / 2 + 200
             );
+
+            options[i].label.setString(
+                AppModel::stages[stage].options[i].description
+            );
+            options[i].optValue = AppModel::stages[stage].options[i].value;
 
             margin += 150;
         }
