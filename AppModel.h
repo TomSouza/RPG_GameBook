@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <sstream>
+#include <utility>
+
 #include <iostream>
 #include <fstream>
 
@@ -7,10 +11,25 @@
 
 using namespace std;
 
+const string gameData = "saveData.bee";
+const string stageData = "stages.txt";
+
 struct saveSlots {
     int slot;
     bool empty;
     string name;
+};
+
+struct option {
+    int value;
+    string description;
+};
+
+struct stageInfo {
+    int nivel;
+    int ident;
+    string description;
+    option options[3];
 };
 
 class AppModel
@@ -20,15 +39,16 @@ public:
     ~AppModel();
 
     void save(const char* file);
-    void saveBinary(const char* file);
+    void saveBinary();
 
-    void load(const char* file);
-    void loadBinary(const char* file);
+    void load();
+    void loadBinary();
 
     void checkSlots();
 
     static Player* player;
     static saveSlots slots[3];
+    static stageInfo* stages;
     static int saveSlot;
 
 private:

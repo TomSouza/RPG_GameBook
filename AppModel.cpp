@@ -2,6 +2,7 @@
 
 Player* AppModel::player = NULL;
 saveSlots AppModel::slots[3];
+stageInfo* AppModel::stages = NULL;
 int AppModel::saveSlot = NULL;
 
 string trim(const string& str)
@@ -13,6 +14,18 @@ string trim(const string& str)
     }
     size_t last = str.find_last_not_of(' ');
     return str.substr(first, (last - first + 1));
+}
+
+vector<string> explode(string const & text, char delimiter) {
+    vector<string> result;
+    istringstream iss(text);
+
+    for (string token; getline(iss, token, delimiter); )
+    {
+        result.push_back(move(token));
+    }
+
+    return result;
 }
 
 AppModel::AppModel()
@@ -27,9 +40,9 @@ void AppModel::save(const char* file)
 {
 }
 
-void AppModel::saveBinary(const char* file)
+void AppModel::saveBinary()
 {
-    ofstream save(file, ios::in | ios::out | ios::binary);
+    ofstream save(gameData, ios::in | ios::out | ios::binary);
 
     save.seekp(saveSlot * slotBites);
 
@@ -38,13 +51,92 @@ void AppModel::saveBinary(const char* file)
     save.close();
 }
 
-void AppModel::load(const char* file)
+void AppModel::load()
 {
+    ifstream load(stageData);
+
+    if (load.is_open()) {
+        int stageVactorSize;
+        int actualStage = 0;
+        string read;
+
+        load >> stageVactorSize;
+        stages = new stageInfo[stageVactorSize];
+
+        do {
+            int nivel, ident, value;
+            string description;
+
+            load >> read;
+
+            if (read == "#") {
+                load >> nivel >> ident;
+
+                if (nivel == -10) {
+                    break;
+                }
+
+                stages[actualStage].nivel = nivel;
+                stages[actualStage].ident = ident;
+            }
+
+            do {
+                load >> read;
+                if (read != "#") {
+                    description += " " + read;
+                }
+            } while (read != "#");
+
+            stages[actualStage].description = description;
+
+            load >> read;
+
+            vector<string> multInfo;
+
+            if (read == "I:") {
+                load >> read;
+                multInfo = explode(read, ';');
+            }
+
+            load >> read;
+
+            if (read == "$") {
+                int optCount = 0;
+
+                do {
+                    description = "";
+                    load >> value;
+
+                    do {
+                        load >> read;
+
+                        if (read == "---") {
+                            break;
+                        }
+
+                        if (read[0] != '$' && read[0] != '#') {
+                            description += " " + read;
+                        }
+
+                    } while (read[0] != '$');
+
+                    stages[actualStage].options[optCount].value = value;
+                    stages[actualStage].options[optCount].description = trim(description);
+
+                    optCount++;
+                } while (optCount < 3);
+            }
+
+            actualStage++;
+        } while (true);
+    }
+
+    load.close();
 }
 
-void AppModel::loadBinary(const char* file)
+void AppModel::loadBinary()
 {
-    ifstream load(file, ios::binary);
+    ifstream load(gameData, ios::binary);
 
     load.seekg(saveSlot * slotBites);
     loadPlayer(load);
@@ -54,7 +146,7 @@ void AppModel::loadBinary(const char* file)
 
 void AppModel::checkSlots()
 {
-    ifstream load("saveData.bee", ios::binary);
+    ifstream load(gameData, ios::binary);
 
     int verify = 0;
     string* name;
