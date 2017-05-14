@@ -8,6 +8,16 @@ Character::~Character()
 {
 }
 
+void Character::setName(string value)
+{
+    name = value;
+}
+
+string Character::getName()
+{
+    return name;
+}
+
 void Character::setStrength(int value)
 {
     if (value >= 0) {
@@ -66,6 +76,16 @@ void Character::setFirePower(int value)
 int Character::getFirePower()
 {
     return fire_power;
+}
+
+void Character::setExperience(int value)
+{
+    experience += value;
+}
+
+int Character::getExperience()
+{
+    return experience;
 }
 
 void Character::setHp(int hp)

@@ -1,5 +1,6 @@
 #pragma once
 #include "Inventory.h"
+#include <time.h>
 
 class Character
 {
@@ -12,6 +13,8 @@ protected:
 
     int experience = 0;
 
+    string name;
+
     Inventory *inventory = NULL;
 
 public:
@@ -20,6 +23,9 @@ public:
 
     virtual int attack() = 0;
     virtual void defend(int damage) = 0;
+
+    void setName(string value);
+    string getName();
 
     void setStrength(int);
     int getStrength();
@@ -35,6 +41,9 @@ public:
 
     void setFirePower(int);
     int getFirePower();
+
+    void setExperience(int);
+    int getExperience();
 
     void setHp(int);
     int getHp();
