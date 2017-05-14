@@ -8,5 +8,10 @@ private:
 public:
     Enemy();
     ~Enemy();
+
+    int attack();
+    void defend(int damage);
+
+    void create();
 };
 

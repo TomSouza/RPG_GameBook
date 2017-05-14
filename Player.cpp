@@ -15,14 +15,38 @@ int Player::attack()
 {
     int damage = 0;
 
-    damage = AP;
+    srand(time(NULL));
+
+    int dice = rand() % 6 + 1;
+
+    if (dice == 6) {
+        damage += strength;
+    }
+
+    damage += AP + dice;
 
     return damage;
 }
 
 void Player::defend(int damage)
 {
-    hp -= damage - DP;
+    int dice = rand() % 6 + 1;
+
+    if (dice == 6) {
+        tempDefence += armor;
+    }
+
+    tempDefence += dice;
+
+    damage = (damage - (DP + tempDefence)) < 0 
+        ? 0
+        : damage - (DP + tempDefence);
+
+    hp -= damage;
+
+    if (tempDefence > 0) {
+        tempDefence = 0;
+    }
 }
 
 int Player::getUsablePoints()
@@ -45,6 +69,11 @@ void Player::setName(string value)
 string Player::getName()
 {
     return *name;
+}
+
+void Player::setTempDefence(int value)
+{
+    tempDefence = value;
 }
 
 int Player::getPointsToUse()

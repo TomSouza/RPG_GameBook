@@ -20,11 +20,14 @@ public:
     void setName(string value);
     string getName();
 
+    void setTempDefence(int value);
+
     int getPointsToUse();
 
     int maxNameSize = 20;
     Class playerClass = WARRIOR;
 private:
     int pointsToUse = 12;
+    int tempDefence = 0;
     string* name;
 };
