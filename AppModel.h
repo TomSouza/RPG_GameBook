@@ -8,6 +8,7 @@
 #include <fstream>
 
 #include "Player.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -28,8 +29,10 @@ struct option {
 struct stageInfo {
     int nivel;
     int ident;
+    char type;
     string description;
     option options[3];
+    Enemy* enemy;
 };
 
 class AppModel
@@ -50,10 +53,12 @@ public:
     static saveSlots slots[3];
     static stageInfo* stages;
     static int saveSlot;
+    static int stageVectorSize;
+    static int scene[2];
 
 private:
     int maxSaves = 3;
-    int slotBites = 56;
+    int slotBites = 64;
 
     void savePlayer(ofstream& save);
     void loadPlayer(ifstream& load);

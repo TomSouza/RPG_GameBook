@@ -4,6 +4,8 @@ Player* AppModel::player = NULL;
 saveSlots AppModel::slots[3];
 stageInfo* AppModel::stages = NULL;
 int AppModel::saveSlot = NULL;
+int AppModel::stageVectorSize;
+int AppModel::scene[2];
 
 string trim(const string& str)
 {
@@ -42,13 +44,23 @@ void AppModel::save(const char* file)
 
 void AppModel::saveBinary()
 {
-    ofstream save(gameData, ios::in | ios::out | ios::binary);
+    ofstream *save;
 
-    save.seekp(saveSlot * slotBites);
+    if (slots[0].empty && slots[1].empty && slots[2].empty) {
+        save = new ofstream(gameData, ios::binary);
+    }
+    else {
+        save = new ofstream(gameData, ios::in | ios::out | ios::binary);
+    }
 
-    savePlayer(save);
+    save->seekp(saveSlot * slotBites);
 
-    save.close();
+    insertInteger(*save, scene[0]);
+    insertInteger(*save, scene[1]);
+
+    savePlayer(*save);
+
+    save->close();
 }
 
 void AppModel::load()
@@ -56,12 +68,12 @@ void AppModel::load()
     ifstream load(stageData);
 
     if (load.is_open()) {
-        int stageVactorSize;
         int actualStage = 0;
+        char type;
         string read;
 
-        load >> stageVactorSize;
-        stages = new stageInfo[stageVactorSize];
+        load >> stageVectorSize;
+        stages = new stageInfo[stageVectorSize];
 
         do {
             int nivel, ident, value;
@@ -70,7 +82,7 @@ void AppModel::load()
             load >> read;
 
             if (read == "#") {
-                load >> nivel >> ident;
+                load >> nivel >> ident >> type;
 
                 if (nivel == -10) {
                     break;
@@ -78,6 +90,7 @@ void AppModel::load()
 
                 stages[actualStage].nivel = nivel;
                 stages[actualStage].ident = ident;
+                stages[actualStage].type = type;
             }
 
             do {
@@ -91,11 +104,29 @@ void AppModel::load()
 
             load >> read;
 
-            vector<string> multInfo;
+            vector<string> monsterInfo;
+            vector<string> itemInfo;
+
+            if (read == "M:") {
+                load >> read;
+                monsterInfo = explode(read, ';');
+
+                stages[actualStage].enemy = new Enemy();
+                stages[actualStage].enemy->setName(monsterInfo[0]);
+                stages[actualStage].enemy->setStrength(stoi(monsterInfo[1]));
+                stages[actualStage].enemy->setAbility(stoi(monsterInfo[2]));
+                stages[actualStage].enemy->setEndurance(stoi(monsterInfo[3]));
+                stages[actualStage].enemy->setArmor(stoi(monsterInfo[4]));
+                stages[actualStage].enemy->setFirePower(stoi(monsterInfo[5]));
+
+                stages[actualStage].enemy->create();
+            }
+
+            load >> read;
 
             if (read == "I:") {
                 load >> read;
-                multInfo = explode(read, ';');
+                itemInfo = explode(read, ';');
             }
 
             load >> read;
@@ -139,6 +170,10 @@ void AppModel::loadBinary()
     ifstream load(gameData, ios::binary);
 
     load.seekg(saveSlot * slotBites);
+
+    load.read(reinterpret_cast<char*> (&scene[0]), sizeof(int));
+    load.read(reinterpret_cast<char*> (&scene[1]), sizeof(int));
+
     loadPlayer(load);
 
     load.close();
@@ -157,6 +192,10 @@ void AppModel::checkSlots()
 
         if (load) {
             load.seekg(i * slotBites);
+            // Le duas vezes para pular posição
+            load.read(reinterpret_cast<char*>(&verify), sizeof(int));
+            load.read(reinterpret_cast<char*>(&verify), sizeof(int));
+
             load.read(reinterpret_cast<char*>(&verify), sizeof(int));
         }
 
@@ -239,6 +278,8 @@ void AppModel::loadPlayer(ifstream & load)
     player->setMp(mp);
 
     player->playerClass = playerClass;
+
+    player->create();
 }
 
 void AppModel::insertString(ofstream& streamer, string value, int size)
