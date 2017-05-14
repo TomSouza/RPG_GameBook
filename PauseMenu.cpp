@@ -208,7 +208,7 @@ void PauseMenu::dataManager()
         ) {
             AppModel::saveSlot = i;
             model.loadBinary();
-            actualScreen = STATUS;
+            sceneChange = NARRATIVE;
         }
 
         saveLoad[i].desenhar();
@@ -223,7 +223,12 @@ void PauseMenu::createNewGame()
 {
     player[0]->setName(playerName.getString());
     player[0]->create();
+    AppModel::scene[0] = 1;
+    AppModel::scene[1] = 1;
+
     model.saveBinary();
+
+    sceneChange = NARRATIVE;
 }
 
 void PauseMenu::inputUpdate()
