@@ -1,0 +1,29 @@
+2
+
+# 1 1
+
+Descricao teste
+
+#
+I: chave;c;0;0;0
+
+$ 2 Lorem ipsum dolor
+$ 3 Praesent molestie
+$ 4 Integer a nisl lectus
+
+---
+
+# 2 1
+
+Descricao teste mais maior de longa
+
+#
+I: chave;c;0;0;0
+
+$ 2 Em frente
+$ 3 Corredor esquerda
+$ 4 Porta direita
+
+---
+
+# -10
