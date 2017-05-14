@@ -207,7 +207,7 @@ void PauseMenu::dataManager()
             !newGame
         ) {
             AppModel::saveSlot = i;
-            model.loadBinary("saveData.bee");
+            model.loadBinary();
             actualScreen = STATUS;
         }
 
@@ -223,7 +223,7 @@ void PauseMenu::createNewGame()
 {
     player[0]->setName(playerName.getString());
     player[0]->create();
-    model.saveBinary("saveData.bee");
+    model.saveBinary();
 }
 
 void PauseMenu::inputUpdate()
