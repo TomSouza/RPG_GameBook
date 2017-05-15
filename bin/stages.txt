@@ -1,21 +1,67 @@
-2
+7
 
-# 1 1
+# 1 1 h
 
-Descricao teste
+Apos ouvir uma conversa na igreja local sobre a origem de sua familia voce viaja
+em direcao ao templo Etanitsarcorp com o medalao que seu avo lhe deu antes de morrer.
+Ao usalo como chave na porta de entrada voce se encontra em uma sala com 3 portas.
 
 #
 I: chave;c;0;0;0
 
-$ 2 Lorem ipsum dolor
-$ 3 Praesent molestie
-$ 4 Integer a nisl lectus
+$ 1 Segir pela esquerda
+$ 2 Segir em frente
+$ 3 Segir pela direita
 
 ---
 
-# 2 1
+# 2 1 h
 
-Descricao teste mais maior de longa
+Voce abre a porta e ve uma sala cheia de caixas, em cima de uma delas tem um bilhete e uma chave.
+Voce pega a chave e le o bilhete, nele esta escrito "Flat is justice".
+
+#
+I: chave;c;0;0;0
+
+$ 1 Em frente
+$ 2 Corredor esquerda
+$ 3 Porta direita
+
+---
+
+# 2 2 h
+
+Apos abrir a porta voce se encontra em um corredor extenso e iluminado por
+uma ou duas lamparinas.
+
+#
+I: chave;c;0;0;0
+
+$ 4 Em frente
+$ 5 Corredor esquerda
+$ 6 Porta direita
+
+---
+
+# 2 3 m
+
+A wild orc fedorento apears.
+
+#
+M: Goblin;2;3;3;1;0;200;1
+
+I: chave;c;0;0;0
+
+$ 1 ee
+$ 2 ee
+$ 0 ee
+
+---
+
+# 3 1 h
+
+Voce abre a porta e ve uma sala cheia de caixas, em cima de uma delas tem um bilhete e uma chave.
+Voce pega a chave e le o bilhete, nele esta escrito "Flat is justice".
 
 #
 I: chave;c;0;0;0
@@ -23,6 +69,35 @@ I: chave;c;0;0;0
 $ 2 Em frente
 $ 3 Corredor esquerda
 $ 4 Porta direita
+
+---
+
+# 3 2 h
+
+Apos abrir a porta voce se encontra em um corredor extenso e iluminado por
+uma ou duas lamparinas.
+
+#
+I: chave;c;0;0;0
+
+$ 2 Em frente
+$ 3 Corredor esquerda
+$ 4 Porta direita
+
+---
+
+# 3 3 m
+
+A wild orc fedorento apears.
+
+#
+M: Goblin;2;3;3;1;0;200;1
+
+I: chave;c;0;0;0
+
+$ 1 ee
+$ 2 ee
+$ 0 ee
 
 ---
 
