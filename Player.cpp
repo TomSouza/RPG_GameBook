@@ -56,7 +56,16 @@ int Player::getUsablePoints()
 
 void Player::create()
 {
-    hp = endurance * 5;
+    if (hp == 0) {
+        int multiplier = 5;
+
+        if (playerClass == WARRIOR) {
+            multiplier = 6;
+        }
+
+        hp = endurance * multiplier;
+    }
+
     AP = strength + ability;
     DP = ability + armor;
 }
