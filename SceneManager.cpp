@@ -43,6 +43,12 @@ void SceneManager::setScene(Scenes scene)
         actualScene = &options;
         break;
     case NARRATIVE:
+        options.setNewGame(false);
+        options.setInGame(true);
+        options.setState(STATUS);
+
+        game.setPauseScene(&options);
+
         actualScene = &game;
         break;
     case KEEP:
