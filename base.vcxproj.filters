@@ -1,17 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Jogo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
@@ -40,6 +33,16 @@
     </ClCompile>
     <ClCompile Include="Narrative.cpp">
       <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleManager.cpp">
+      <Filter>Source Files\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,18 +76,18 @@
     <Filter Include="Source Files\Model">
       <UniqueIdentifier>{e2e1945e-5811-4501-a4eb-c8022ffb3c3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Managers">
+      <UniqueIdentifier>{d45e26b6-8f7c-4e04-b2be-cea73574ceb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Managers">
+      <UniqueIdentifier>{82bbe721-5ea8-44cd-84af-a50fcffcac08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jogo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
@@ -113,6 +116,15 @@
     </ClInclude>
     <ClInclude Include="Narrative.h">
       <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

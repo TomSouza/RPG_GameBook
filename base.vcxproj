@@ -101,6 +101,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppModel.cpp" />
+    <ClCompile Include="BattleManager.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Intro.cpp" />
@@ -117,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppModel.h" />
+    <ClInclude Include="BattleManager.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Intro.h" />
