@@ -16,6 +16,8 @@ public:
     Scenes update();
 
     void setNewGame(bool);
+    void setInGame(bool);
+    void setState(Screens state);
 
 private:
     void draw();
@@ -36,7 +38,10 @@ private:
     void setAttributesLabel(int);
     void checkAttributesButtons(int);
 
+    void drawTabs();
+
     bool newGame;
+    bool inGame = false;
     BotaoSprite saveLoad[3];
     Texto loadName[3];
 
@@ -57,5 +62,7 @@ private:
 
     Player** player = &AppModel::player;
     Screens actualScreen;
+    BotaoSprite tabs[3];
+    Texto tabsLabel[3];
 };
 

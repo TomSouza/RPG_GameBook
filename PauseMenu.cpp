@@ -10,7 +10,10 @@ PauseMenu::PauseMenu()
     gRecursos.carregarSpriteSheet("save", "assets/buttons/newData.png", 3, 1);
     gRecursos.carregarSpriteSheet("load", "assets/buttons/loadData.png", 3, 1);
 
+    gRecursos.carregarSpriteSheet("tabs", "assets/buttons/option.png", 3, 1);
+
     int pos = -100;
+    int tabPosX = -230;
 
     for (int i = 0; i < 3; i++) {
 
@@ -30,7 +33,26 @@ PauseMenu::PauseMenu()
             gJanela.getAltura() / 2 + pos
         );
 
+        tabs[i].setSpriteSheet("tabs");
+        tabs[i].setPos(
+            gJanela.getLargura() / 2 + tabPosX,
+            gJanela.getAltura() / 2 - 200
+        );
+
+        tabsLabel[i].setFonte("gameFont");
+        tabsLabel[i].setCor(0, 0, 0, 255, true);
+        if (i == 0) {
+            tabsLabel[i].setString("Status");
+        }
+        else if (i == 1) {
+            tabsLabel[i].setString("Itens");
+        }
+        else {
+            tabsLabel[i].setString("Save");
+        }
+
         pos += 100;
+        tabPosX += 110;
     }
 }
 
@@ -54,6 +76,10 @@ Scenes PauseMenu::update()
 
     draw();
 
+    if (inGame) {
+        drawTabs();
+    }
+
     switch (actualScreen)
     {
     case DATA_MANAGER:
@@ -75,6 +101,16 @@ Scenes PauseMenu::update()
 void PauseMenu::setNewGame(bool value)
 {
     newGame = value;
+}
+
+void PauseMenu::setInGame(bool value)
+{
+    inGame = value;
+}
+
+void PauseMenu::setState(Screens state)
+{
+    actualScreen = state;
 }
 
 void PauseMenu::draw()
@@ -204,11 +240,18 @@ void PauseMenu::dataManager()
         else if (
             saveLoad[i].estaClicado() &&
             !AppModel::slots[i].empty &&
-            !newGame
+            !newGame && !inGame
         ) {
             AppModel::saveSlot = i;
             model.loadBinary();
             sceneChange = NARRATIVE;
+        }
+        else if (
+            saveLoad[i].estaClicado() && 
+            !AppModel::slots[i].empty &&
+            inGame && AppModel::saveSlot == i
+        ) {
+            model.saveBinary();
         }
 
         saveLoad[i].desenhar();
@@ -334,20 +377,24 @@ void PauseMenu::showAttributes()
 {
     int pos = -100;
 
-    remainingPoints.setString(
-        "Pontos: " + to_string(player[0]->getPointsToUse())
-    );
-    remainingPoints.desenhar(
-        gJanela.getLargura() / 2 + 210,
-        gJanela.getAltura() / 2 - 150
-    );
+    if (newGame || player[0]->getPointsToUse() > 0) {
+        remainingPoints.setString(
+            "Pontos: " + to_string(player[0]->getPointsToUse())
+        );
+        remainingPoints.desenhar(
+            gJanela.getLargura() / 2 + 210,
+            gJanela.getAltura() / 2 - 150
+        );
+    }
 
     for (int i = 0; i < 5; i++) {
 
-        if (player[0]->getPointsToUse() > 0) {
-            plus[i].atualizar();
-        }
-        minus[i].atualizar();
+        if (newGame || player[0]->getPointsToUse() > 0) {
+            if (player[0]->getPointsToUse() > 0) {
+                plus[i].atualizar();
+            }
+            minus[i].atualizar();
+        }       
 
         checkAttributesButtons(i);
 
@@ -357,11 +404,13 @@ void PauseMenu::showAttributes()
             gJanela.getAltura() / 2 + pos
         );
 
-        if (player[0]->getPointsToUse() > 0) {
-            plus[i].desenhar();
-        }
+        if (newGame || player[0]->getPointsToUse() > 0) {
+            if (player[0]->getPointsToUse() > 0) {
+                plus[i].desenhar();
+            }
 
-        minus[i].desenhar();
+            minus[i].desenhar();
+        }
 
         pos += 40;
     }
@@ -485,4 +534,34 @@ void PauseMenu::checkAttributesButtons(int position)
             break;
         }
     }    
+}
+
+void PauseMenu::drawTabs()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        tabs[i].atualizar();
+
+        if (tabs[i].estaClicado() == true) {
+            switch (i)
+            {
+            case 0:
+                actualScreen = STATUS;
+                break;
+            case 1:
+                actualScreen = INVENTORY;
+                break;
+            case 2:
+                actualScreen = DATA_MANAGER;
+            default:
+                break;
+            }
+        }
+
+        tabs[i].desenhar();
+        tabsLabel[i].desenhar(
+            tabs[i].getX(),
+            tabs[i].getY()
+        );
+    }
 }
