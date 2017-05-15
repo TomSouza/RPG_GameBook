@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "BattleManager.h"
+#include "PauseMenu.h"
 
 struct optionButton
 {
@@ -31,9 +32,13 @@ public:
 	void finish();
     Scenes update();
 
+    void setPauseScene(PauseMenu* scene);
 
 private:
 	void draw();
+
+    bool paused = false;
+    PauseMenu* pause = NULL;
 
     void history();
     void battle();
@@ -45,6 +50,8 @@ private:
     int storyLine;
     void setStage(int stage, int storyLine = 1);
 
+    Texto stageText;
+    Sprite stageLabel;
     stageInfo* stageInfo = NULL;
 
     GameState actualState = HISTORY;

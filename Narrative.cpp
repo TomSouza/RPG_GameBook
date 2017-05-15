@@ -9,8 +9,15 @@ Narrative::Narrative()
 	gRecursos.carregarSpriteSheet("div", "assets/bg/narrativeDivision.png");
     gRecursos.carregarSpriteSheet("enemyLabel", "assets/bg/enemyLabel.png");
 
+    gRecursos.carregarSpriteSheet("bgStage1", "assets/bg/dungon.png");
+    background.setSpriteSheet("bgStage1");
+
     gRecursos.carregarFonte("buttonFont", "assets/fonts/vineritc.ttf", 14);
     gRecursos.carregarFonte("descriptionFont", "assets/fonts/vineritc.ttf", 16);
+
+    stageText.setFonte("gameFont");
+    stageText.setString("");
+    stageText.setCor(0, 0, 0, 255, true);
 
     playerHealth.setFonte("gameFont");
     playerHealth.setCor(0, 0, 0, 255, true);
@@ -21,6 +28,9 @@ Narrative::Narrative()
 
     enemyLabel.setSpriteSheet("enemyLabel");
     enemyLabel.setEscala(0.8, 0.8);
+
+    stageLabel.setSpriteSheet("enemyLabel");
+    stageLabel.setEscala(0.4, 0.4);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -63,7 +73,21 @@ void Narrative::finish()
 
 Scenes Narrative::update()
 {
-	draw();
+    draw();
+
+    if (gTeclado.pressionou[TECLA_TAB]) {
+        paused = !paused;
+    }
+
+    if (paused) {
+        pause->update();
+        return sceneChange;
+    }
+
+    narrativeDiv.desenhar(
+        gJanela.getLargura() / 2,
+        gJanela.getAltura() / 2 + 150
+    );
 
     switch (actualState)
     {
@@ -80,6 +104,11 @@ Scenes Narrative::update()
 	return sceneChange;
 }
 
+void Narrative::setPauseScene(PauseMenu* scene)
+{
+    pause = scene;
+}
+
 void Narrative::setStage(int stage, int storyLine)
 {
     for (int i = 0; i < AppModel::stageVectorSize; i++)
@@ -92,6 +121,9 @@ void Narrative::setStage(int stage, int storyLine)
 
             this->stage = stage;
             this->storyLine = storyLine;
+
+            AppModel::scene[0] = stage;
+            AppModel::scene[1] = storyLine;
             break;
         }
     }
@@ -106,10 +138,22 @@ void Narrative::setStage(int stage, int storyLine)
 
 void Narrative::draw()
 {
-	narrativeDiv.desenhar(
+	background.desenhar(
 		gJanela.getLargura() / 2,
-		gJanela.getAltura() / 2 + 150 
+		gJanela.getAltura() / 2
 	);
+
+    stageLabel.desenhar(
+        gJanela.getLargura() / 2 - 350,
+        gJanela.getAltura() / 2 -250
+    );
+
+    stageText.setString(to_string(stage));
+
+    stageText.desenhar(
+        gJanela.getLargura() / 2 - 350,
+        gJanela.getAltura() / 2 - 250
+    );
 }
 
 void Narrative::history()
@@ -141,7 +185,7 @@ void Narrative::history()
 void Narrative::battle()
 {
     if (stageInfo->enemy->getHp() <= 0) {
-        setStage(1);
+        setStage(stage + 1, stageInfo->options[0].value);
         return;
     }
 
