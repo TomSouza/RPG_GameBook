@@ -59,8 +59,19 @@ void Player::create()
     if (hp == 0) {
         int multiplier = 5;
 
+        srand(time(NULL));
+        luck = rand() % 12 + 6;
+
         if (playerClass == WARRIOR) {
             multiplier = 6;
+            strength += 2;
+        }
+        else if (playerClass == MAGE) {
+            ability += 2;
+        }
+        else if (playerClass == ROGUE) {
+            ability += 3;
+            luck += 5;
         }
 
         hp = endurance * multiplier;
@@ -90,4 +101,22 @@ int Player::getPointsToUse()
     return pointsToUse - (
         strength + ability + endurance + armor + fire_power
     );
+}
+
+void Player::setLuck(int value)
+{
+    if (value < 0) {
+        luck--;
+    }
+    else if (value == 0) {
+        luck++;
+    }
+    else {
+        luck = value;
+    }
+}
+
+int Player::getLuck()
+{
+    return luck;
 }

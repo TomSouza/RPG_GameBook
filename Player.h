@@ -24,10 +24,16 @@ public:
 
     int getPointsToUse();
 
+    void setLuck(int value = 0);
+    int getLuck();
+
     int maxNameSize = 20;
     Class playerClass = WARRIOR;
 private:
     int pointsToUse = 12;
     int tempDefence = 0;
+
+    int luck = 0;
+
     string* name;
 };
