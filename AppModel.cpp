@@ -235,7 +235,7 @@ void AppModel::savePlayer(ofstream& save)
     insertInteger(save, player->getAbility());
     insertInteger(save, player->getEndurance());
     insertInteger(save, player->getArmor());
-    insertInteger(save, player->getFirePower());
+    insertInteger(save, player->getLuck());
 
     insertInteger(save, player->getHp());
     insertInteger(save, player->getMp());
@@ -247,7 +247,7 @@ void AppModel::loadPlayer(ifstream & load)
 {
     player = new Player;
 
-    int strength, ability, endurance, armor, fire_power, hp, mp;
+    int strength, ability, endurance, armor, luck, hp, mp;
     Class playerClass;
 
     load.read(reinterpret_cast<char*>(&player->maxNameSize), sizeof(int));
@@ -258,7 +258,7 @@ void AppModel::loadPlayer(ifstream & load)
     load.read(reinterpret_cast<char*> (&ability), sizeof(int));
     load.read(reinterpret_cast<char*> (&endurance), sizeof(int));
     load.read(reinterpret_cast<char*> (&armor), sizeof(int));
-    load.read(reinterpret_cast<char*> (&fire_power), sizeof(int));
+    load.read(reinterpret_cast<char*> (&luck), sizeof(int));
 
     load.read(reinterpret_cast<char*> (&hp), sizeof(int));
     load.read(reinterpret_cast<char*> (&mp), sizeof(int));
@@ -272,7 +272,7 @@ void AppModel::loadPlayer(ifstream & load)
     player->setAbility(ability);
     player->setEndurance(endurance);
     player->setArmor(armor);
-    player->setFirePower(fire_power);
+    player->setLuck(luck);
 
     player->setHp(hp);
     player->setMp(mp);
