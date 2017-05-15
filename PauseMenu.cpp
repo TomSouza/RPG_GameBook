@@ -476,15 +476,32 @@ void PauseMenu::setAttributesLabel(int position)
     switch (position) {
     case 0:
         label = "Força: " + to_string(player[0]->getStrength());
+
+        if (player[0]->playerClass == WARRIOR) {
+            label += " + 2";
+        }
+
         break;
     case 1:
         label = "Habilidade: " + to_string(player[0]->getAbility());
+
+        if (player[0]->playerClass == MAGE) {
+            label += " + 2";
+        } else if (player[0]->playerClass == ROGUE) {
+            label += " + 3";
+        }
+
         break;
     case 2:
         label = "Resistencia: " + to_string(player[0]->getEndurance());
         break;
     case 3:
         label = "Armadura: " + to_string(player[0]->getArmor());
+
+        if (player[0]->playerClass == WARRIOR) {
+            label += " + 2";
+        }
+
         break;
     case 4:
         label = "Poder de Fogo: " + to_string(player[0]->getFirePower());

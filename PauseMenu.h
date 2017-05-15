@@ -29,6 +29,7 @@ private:
     void dataManager();
 
     void createNewGame();
+    void drawTabs();
 
     /* Status */
     void inputUpdate();
@@ -36,9 +37,7 @@ private:
 
     void showAttributes();
     void setAttributesLabel(int);
-    void checkAttributesButtons(int);
-
-    void drawTabs();
+    void checkAttributesButtons(int);    
 
     bool newGame;
     bool inGame = false;
