@@ -2,6 +2,9 @@
 #include "Inventory.h"
 #include <time.h>
 
+/// <summary>
+/// Classe base para implementação de personagens
+/// </summary>
 class Character
 {
 protected:
