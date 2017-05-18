@@ -27,6 +27,7 @@ private:
     void inventory();
     void status();
     void dataManager();
+    void checkSaves();
 
     void createNewGame();
     void drawTabs();

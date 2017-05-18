@@ -40,26 +40,9 @@ PauseMenu::PauseMenu()
     mainMenu.label.setCor(0, 0, 0, 255, true);
     mainMenu.label.setString("Menu Inicial");
 
-    int pos = -100;
     int tabPosX = -230;
 
     for (int i = 0; i < 3; i++) {
-
-        if (AppModel::slots[i].empty) {
-            saveLoad[i].setSpriteSheet("save");
-        }
-        else {
-            saveLoad[i].setSpriteSheet("load");
-
-            loadName[i].setFonte("gameFont");
-            loadName[i].setCor(0, 0, 0, 255, true);
-            loadName[i].setString(AppModel::slots[i].name);
-        }
-
-        saveLoad[i].setPos(
-            gJanela.getLargura() / 2,
-            gJanela.getAltura() / 2 + pos
-        );
 
         tabs[i].setSpriteSheet("tabs");
         tabs[i].setPos(
@@ -79,7 +62,6 @@ PauseMenu::PauseMenu()
             tabsLabel[i].setString("Save");
         }
 
-        pos += 100;
         tabPosX += 110;
     }
 }
@@ -92,6 +74,7 @@ void PauseMenu::start()
 {
     sceneChange = KEEP;
     started = true;
+    checkSaves();
 }
 
 void PauseMenu::finish()
@@ -327,10 +310,46 @@ void PauseMenu::dataManager()
     }
 }
 
+void PauseMenu::checkSaves()
+{
+    int pos = -100;
+
+    for (int i = 0; i < 3; i++) {
+
+        if (AppModel::slots[i].empty) {
+            saveLoad[i].setSpriteSheet("save");
+        }
+        else {
+            saveLoad[i].setSpriteSheet("load");
+
+            loadName[i].setFonte("gameFont");
+            loadName[i].setCor(0, 0, 0, 255, true);
+            loadName[i].setString(AppModel::slots[i].name);
+        }
+
+        saveLoad[i].setPos(
+            gJanela.getLargura() / 2,
+            gJanela.getAltura() / 2 + pos
+        );
+
+        pos += 100;
+    }
+}
+
 void PauseMenu::createNewGame()
 {
     player[0]->setName(playerName.getString());
     player[0]->create();
+
+    switch (player[0]->playerClass)
+    {
+    case WARRIOR:
+        player[0]->inventory->pickUp(AppModel::itens[SWORD]);
+        break;
+    default:
+        break;
+    }
+
     AppModel::scene[0] = 1;
     AppModel::scene[1] = 1;
 
