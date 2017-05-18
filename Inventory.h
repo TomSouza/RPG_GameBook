@@ -8,6 +8,10 @@ private:
     Item equipped[5];
 
     int slots;
+
+    void backpackClick(int pos);
+    void equipClick(int pos);
+
 public:
     Inventory(int);
     ~Inventory();
