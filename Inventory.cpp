@@ -2,6 +2,8 @@
 
 Inventory::Inventory(int slots)
 {
+    gRecursos.carregarSpriteSheet("sword", "assets/itens/sword.png", 3, 1);
+
     backpack = new Item[slots];
 
     int posX = gJanela.getLargura() / 2 + 32;
@@ -13,7 +15,7 @@ Inventory::Inventory(int slots)
             posX = gJanela.getLargura() / 2 + 32;
         }
 
-        backpack[i].action.button.setSpriteSheet("rogue");
+        backpack[i].action.button.setSpriteSheet("sword");
         backpack[i].action.button.setPos(posX, posY);
         backpack[i].action.label.setFonte("buttonFont");
 
@@ -22,7 +24,7 @@ Inventory::Inventory(int slots)
 
     for (int i = 0; i < 5; i++)
     {
-        equipped[i].action.button.setSpriteSheet("rogue");
+        equipped[i].action.button.setSpriteSheet("sword");
 
         switch (i + 1)
         {
@@ -70,6 +72,41 @@ Inventory::~Inventory()
     delete [] equipped;
 }
 
+void Inventory::backpackClick(int pos)
+{
+    if (backpack[pos].action.button.estaClicado() == true) {
+        if (backpack[pos].type == WEAPON) {
+            if (equipped[RIGHT_HAND -1].type == EMPTY) {
+                itemButton foo = equipped[RIGHT_HAND - 1].action;
+
+                equipped[RIGHT_HAND -1] = backpack[pos];
+                backpack[pos].type = EMPTY;
+
+                equipped[RIGHT_HAND - 1].action = foo;
+            }
+        }
+    }
+}
+
+void Inventory::equipClick(int pos)
+{
+    if (equipped[pos].action.button.estaClicado() == true) {
+        for (int i = 0; i < 6; i++)
+        {
+            if (backpack[i].type == EMPTY) {
+                itemButton foo = backpack[i].action;
+
+                backpack[i] = equipped[pos];
+                equipped[pos].type = EMPTY;
+
+                backpack[i].action = foo;
+
+                return;
+            }
+        }
+    }
+}
+
 Item Inventory::showItens()
 {
 
@@ -77,6 +114,8 @@ Item Inventory::showItens()
     {
         if (backpack[i].type != EMPTY) {
             backpack[i].action.button.atualizar();
+
+            backpackClick(i);
 
             backpack[i].action.button.desenhar();
             backpack[i].action.label.desenhar(
@@ -87,6 +126,8 @@ Item Inventory::showItens()
 
         if (equipped[i].type != EMPTY && i < 5) {
             equipped[i].action.button.atualizar();
+
+            equipClick(i);
 
             equipped[i].action.button.desenhar();
             equipped[i].action.label.desenhar(
