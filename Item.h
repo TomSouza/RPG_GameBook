@@ -1,14 +1,20 @@
 #pragma once
+#include "libUnicornio.h"
 #include <string>
 
 using namespace std;
+
+struct itemButton {
+    BotaoSprite button;
+    Texto label;
+};
 
 enum Type {
     EMPTY, WEAPON, DEFENSE, CONSUMABLE
 };
 
 enum Position {
-    UNSETABLE, HEAD, CHEAST, LEGS, LEFT_HAND, RIGHT_HAND
+    UNSETABLE, HEAD, CHEST, LEGS, LEFT_HAND, RIGHT_HAND
 };
 
 enum bonusAttribute {
@@ -28,8 +34,9 @@ public:
 
     string name;
     string description;
-    Type type;
-    Position position;
-    bonusAttribute bonus;
+    Type type = EMPTY;
+    Position position = UNSETABLE;
+    bonusAttribute bonus = NONE;
+    itemButton action;
 };
 
