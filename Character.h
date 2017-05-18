@@ -18,11 +18,11 @@ protected:
 
     string name;
 
-    Inventory *inventory = NULL;
-
 public:
     Character();
     ~Character();
+
+    Inventory *inventory = NULL;
 
     /// <summary>
     /// Calcula o dano que o personagem causara
