@@ -5,6 +5,12 @@ PauseMenu::PauseMenu()
     gRecursos.carregarSpriteSheet("background", "assets/bg/pause_menu.png");
     background.setSpriteSheet("background");
 
+    gRecursos.carregarSpriteSheet("inventory", "assets/bg/inventorySlots.png");
+    inventorySlots.setSpriteSheet("inventory");
+
+    gRecursos.carregarSpriteSheet("equipaments", "assets/bg/equipableSlots.png");
+    equipableSlots.setSpriteSheet("equipaments");
+
     initStatusResources();
 
     gRecursos.carregarSpriteSheet("save", "assets/buttons/newData.png", 3, 1);
@@ -199,6 +205,16 @@ void PauseMenu::initStatusResources()
 
 void PauseMenu::inventory()
 {
+
+    equipableSlots.desenhar(
+        gJanela.getLargura() / 2 - 150,
+        gJanela.getAltura() / 2
+    );
+
+    inventorySlots.desenhar(
+        gJanela.getLargura() / 2 + 120,
+        gJanela.getAltura() / 2
+    );
 }
 
 void PauseMenu::status()

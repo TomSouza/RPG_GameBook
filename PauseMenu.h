@@ -59,6 +59,9 @@ private:
 
     BotaoSprite confirm;
 
+    Sprite inventorySlots;
+    Sprite equipableSlots;
+
     Player** player = &AppModel::player;
     Screens actualScreen;
     BotaoSprite tabs[3];
