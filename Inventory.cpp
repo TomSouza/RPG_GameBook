@@ -3,6 +3,65 @@
 Inventory::Inventory(int slots)
 {
     backpack = new Item[slots];
+
+    int posX = gJanela.getLargura() / 2 + 32;
+    int posY = gJanela.getAltura() / 2 - 42;
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == 3) {
+            posY += 88;
+            posX = gJanela.getLargura() / 2 + 32;
+        }
+
+        backpack[i].action.button.setSpriteSheet("rogue");
+        backpack[i].action.button.setPos(posX, posY);
+        backpack[i].action.label.setFonte("buttonFont");
+
+        posX += 88;
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        equipped[i].action.button.setSpriteSheet("rogue");
+
+        switch (i + 1)
+        {
+        case HEAD:
+            equipped[i].action.button.setPos(
+                gJanela.getLargura() / 2 - 150,
+                gJanela.getAltura() / 2 - 60
+            );
+            break;
+        case CHEST:
+            equipped[i].action.button.setPos(
+                gJanela.getLargura() / 2 - 150,
+                gJanela.getAltura() / 2
+            );
+            break;
+        case LEGS:
+            equipped[i].action.button.setPos(
+                gJanela.getLargura() / 2 - 150,
+                gJanela.getAltura() / 2 + 60
+            );
+            break;
+        case LEFT_HAND:
+            equipped[i].action.button.setPos(
+                gJanela.getLargura() / 2 - 85,
+                gJanela.getAltura() / 2 - 15
+            );
+            break;
+        case RIGHT_HAND:
+            equipped[i].action.button.setPos(
+                gJanela.getLargura() / 2 - 215,
+                gJanela.getAltura() / 2 - 15
+            );
+            break;
+        default:
+            break;
+        }
+
+        equipped[i].action.label.setFonte("buttonFont");
+    }
 }
 
 Inventory::~Inventory()
@@ -13,6 +72,30 @@ Inventory::~Inventory()
 
 Item Inventory::showItens()
 {
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (backpack[i].type != EMPTY) {
+            backpack[i].action.button.atualizar();
+
+            backpack[i].action.button.desenhar();
+            backpack[i].action.label.desenhar(
+                backpack[i].action.button.getX(),
+                backpack[i].action.button.getY()
+            );
+        }
+
+        if (equipped[i].type != EMPTY && i < 5) {
+            equipped[i].action.button.atualizar();
+
+            equipped[i].action.button.desenhar();
+            equipped[i].action.label.desenhar(
+                equipped[i].action.button.getX(),
+                equipped[i].action.button.getY()
+            );
+        }
+    }
+
     return *backpack;
 }
 
