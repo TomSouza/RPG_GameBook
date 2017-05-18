@@ -7,7 +7,7 @@ do seu clan. Ao chegar ao local voce abre a porta e no hall de entreda ve 3 corr
 voce escolhe ?
 
 #
-I: none;c;0;0;0
+I: -1
 
 $ 1 Esquerda
 $ 2 Segir em frente
@@ -18,11 +18,11 @@ $ 3 Direita
 # 2 1 h
 
 Apos um tempo andando o corredor se abre numa sala sala cheia de caixas, em cima de uma delas 
-tem um bilhete e uma chave. Voce pega a chave e le o bilhete, nele esta escrito "Flat is justice".
+tem um bilhete e uma chave. Voce pega a CHAVE e le o bilhete, nele esta escrito "Flat is justice".
 Agora voce ve uma porta a direita alem do corredor que segue.
 
 #
-I: key;c;0;0;0
+I: 0
 
 $ 1 Em frente
 $ 2 Porta direita
@@ -36,7 +36,7 @@ Apos abrir a porta voce se encontra em um corredor extenso e iluminado por
 uma ou duas lamparinas.
 
 #
-I: none;c;0;0;0
+I: -1
 
 $ 4 Em frente
 $ 5 Corredor esquerda
@@ -46,12 +46,12 @@ $ 6 Porta direita
 
 # 2 3 m
 
-A wild orc fedorento apears.
+A wild goblin fedorento apears.
 
 #
 M: Goblin;2;3;3;1;0;200;1
 
-I: chave;c;0;0;0
+I: -1
 
 $ 1 ee
 $ 2 ee
@@ -65,7 +65,7 @@ Voce abre a porta e ve uma sala cheia de caixas, em cima de uma delas tem um bil
 Voce pega a chave e le o bilhete, nele esta escrito "Flat is justice".
 
 #
-I: chave;c;0;0;0
+I: -1
 
 $ 2 Em frente
 $ 3 Corredor esquerda
@@ -79,7 +79,7 @@ Apos abrir a porta voce se encontra em um corredor extenso e iluminado por
 uma ou duas lamparinas.
 
 #
-I: chave;c;0;0;0
+I: -1
 
 $ 2 Em frente
 $ 3 Corredor esquerda
@@ -89,12 +89,12 @@ $ 4 Porta direita
 
 # 3 3 m
 
-A wild orc fedorento apears.
+A wild goblin fedorento apears.
 
 #
 M: Goblin;2;3;3;1;0;200;1
 
-I: chave;c;0;0;0
+I: -1
 
 $ 1 ee
 $ 2 ee
