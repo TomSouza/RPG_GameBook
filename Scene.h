@@ -12,6 +12,11 @@ enum Scenes {
     NARRATIVE
 };
 
+struct actionButton {
+    BotaoSprite button;
+    Texto label;
+};
+
 class Scene
 {
 public:
