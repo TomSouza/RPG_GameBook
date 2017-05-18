@@ -184,6 +184,11 @@ void Narrative::history()
         gJanela.getAltura() / 2 + 120
     );
 
+    if (stageInfo->item != NULL) {
+        AppModel::player->inventory->pickUp(*stageInfo->item);
+        stageInfo->item = NULL;
+    }
+
     for (int i = 0; i < 3; i++)
     {
         if (options[i].optValue) {
