@@ -215,6 +215,8 @@ void PauseMenu::inventory()
         gJanela.getLargura() / 2 + 120,
         gJanela.getAltura() / 2
     );
+
+    AppModel::player->inventory->showItens();
 }
 
 void PauseMenu::status()
