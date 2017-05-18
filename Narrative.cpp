@@ -12,8 +12,8 @@ Narrative::Narrative()
     gRecursos.carregarSpriteSheet("bgStage1", "assets/bg/dungon.png");
     background.setSpriteSheet("bgStage1");
 
-    gRecursos.carregarFonte("buttonFont", "assets/fonts/vineritc.ttf", 14);
-    gRecursos.carregarFonte("descriptionFont", "assets/fonts/vineritc.ttf", 16);
+    gRecursos.carregarFonte("buttonFont", "assets/fonts/SCHLBKI.ttf", 14);
+    gRecursos.carregarFonte("descriptionFont", "assets/fonts/SCHLBKI.ttf", 20);
 
     stageText.setFonte("gameFont");
     stageText.setString("");
@@ -48,12 +48,12 @@ Narrative::Narrative()
     setButtonPosition();
 
 	narrativeDiv.setSpriteSheet("div");
-    narrativeDiv.setEscala(1, 1.2);
+    narrativeDiv.setEscala(1, 1.4);
 
 	narration.setFonte("descriptionFont");
 	narration.setString("");
 	narration.setCor(0, 0, 0, 255, true);
-    narration.setLarguraMaxima(550);
+    narration.setLarguraMaxima(600);
 }
 
 Narrative::~Narrative()
@@ -274,7 +274,7 @@ void Narrative::setButtonPosition()
             if (!options[i].optValue) {
                 options[i].button.setPos(
                     gJanela.getLargura() / 2 + margin,
-                    gJanela.getAltura() / 2 + 220
+                    gJanela.getAltura() / 2 + 240
                 );
 
                 options[i].optValue = stageInfo->options[i].value;
