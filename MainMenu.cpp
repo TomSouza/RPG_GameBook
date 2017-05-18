@@ -40,6 +40,7 @@ void MainMenu::start()
 {
     sceneChange = KEEP;
     started = true;
+    AppModel::player = NULL;
 }
 
 void MainMenu::finish()
