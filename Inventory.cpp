@@ -4,9 +4,68 @@ Inventory::Inventory(int slots)
 {
     backpack = new Item[slots];
     this->slots = slots;
+    
+    initPositions();
 
+}
+
+Inventory::~Inventory()
+{
+    delete [] backpack;
+    delete [] equipped;
+}
+
+void Inventory::backpackClick(int pos)
+{
+    if (backpack[pos].action.button.estaClicado() == true) {
+        if (backpack[pos].type == EQUIPPABLE) {
+            if (equipped[RIGHT_HAND -1].type == EMPTY) {
+                itemButton foo = equipped[RIGHT_HAND - 1].action;
+
+                equipped[RIGHT_HAND -1] = backpack[pos];
+                backpack[pos].type = EMPTY;
+                equipped[RIGHT_HAND - 1].type = EQUIPPABLE;
+
+                equipped[RIGHT_HAND - 1].action = foo;
+                equipped[RIGHT_HAND - 1].action.button.setSpriteSheet(backpack[pos].name);
+            }
+        }
+    }
+}
+
+void Inventory::equipClick(int pos)
+{
+    if (equipped[pos].action.button.estaClicado() == true) {
+        for (int i = 0; i < 6; i++)
+        {
+            if (backpack[i].type == EMPTY) {
+                itemButton foo = backpack[i].action;
+
+                backpack[i] = equipped[pos];
+                equipped[pos].type = EMPTY;
+
+                backpack[i].action = foo;
+                backpack[i].action.button.setSpriteSheet(backpack[i].name);
+
+                return;
+            }
+        }
+    }
+}
+
+void Inventory::setEquipped(Item * equips)
+{
+    for (int i = 0; i < 5; i++)
+    {
+        equipped[i] = equips[i];
+    }
+}
+
+void Inventory::initPositions()
+{
     int posX = gJanela.getLargura() / 2 + 32;
     int posY = gJanela.getAltura() / 2 - 42;
+
     for (int i = 0; i < 6; i++)
     {
         if (i == 3) {
@@ -16,14 +75,13 @@ Inventory::Inventory(int slots)
 
         backpack[i].action.button.setPos(posX, posY);
         backpack[i].action.label.setFonte("buttonFont");
+        backpack[i].action.button.setSpriteSheet(backpack[i].name);
 
         posX += 88;
     }
 
     for (int i = 0; i < 5; i++)
     {
-        equipped[i].action.button.setSpriteSheet("sword");
-
         switch (i + 1)
         {
         case HEAD:
@@ -61,51 +119,11 @@ Inventory::Inventory(int slots)
         }
 
         equipped[i].action.label.setFonte("buttonFont");
+        equipped[i].action.button.setSpriteSheet(equipped[i].name);
     }
 }
 
-Inventory::~Inventory()
-{
-    delete [] backpack;
-    delete [] equipped;
-}
-
-void Inventory::backpackClick(int pos)
-{
-    if (backpack[pos].action.button.estaClicado() == true) {
-        if (backpack[pos].type == EQUIPPABLE) {
-            if (equipped[RIGHT_HAND -1].type == EMPTY) {
-                itemButton foo = equipped[RIGHT_HAND - 1].action;
-
-                equipped[RIGHT_HAND -1] = backpack[pos];
-                backpack[pos].type = EMPTY;
-
-                equipped[RIGHT_HAND - 1].action = foo;
-            }
-        }
-    }
-}
-
-void Inventory::equipClick(int pos)
-{
-    if (equipped[pos].action.button.estaClicado() == true) {
-        for (int i = 0; i < 6; i++)
-        {
-            if (backpack[i].type == EMPTY) {
-                itemButton foo = backpack[i].action;
-
-                backpack[i] = equipped[pos];
-                equipped[pos].type = EMPTY;
-
-                backpack[i].action = foo;
-
-                return;
-            }
-        }
-    }
-}
-
-Item Inventory::showItens()
+void Inventory::showItens()
 {
 
     for (int i = 0; i < 6; i++)
@@ -134,8 +152,6 @@ Item Inventory::showItens()
             );
         }
     }
-
-    return *backpack;
 }
 
 bool Inventory::pickUp(Item newItem)
@@ -163,4 +179,14 @@ bool Inventory::pickUp(Item newItem)
 void Inventory::discart(int discart)
 {
     backpack[discart].~Item();
+}
+
+Item* Inventory::getBackpack()
+{
+    return backpack;
+}
+
+Item* Inventory::getEquipped()
+{
+    return equipped;
 }

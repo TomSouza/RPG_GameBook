@@ -4,6 +4,8 @@
 class Inventory
 {
 private:
+    friend class AppModel;
+
     Item *backpack;
     Item equipped[5];
 
@@ -12,11 +14,17 @@ private:
     void backpackClick(int pos);
     void equipClick(int pos);
 
+    void setEquipped(Item* equips);
+    void initPositions();
+
 public:
     Inventory(int);
     ~Inventory();
 
-    Item showItens();
+    void showItens();
     bool pickUp(Item);
     void discart(int);
+
+    Item* getBackpack();
+    Item* getEquipped();
 };
