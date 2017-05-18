@@ -10,7 +10,7 @@ struct itemButton {
 };
 
 enum Type {
-    EMPTY, WEAPON, DEFENSE, CONSUMABLE
+    EMPTY, EQUIPPABLE, CONSUMABLE
 };
 
 enum Position {
@@ -38,5 +38,8 @@ public:
     Position position = UNSETABLE;
     bonusAttribute bonus = NONE;
     itemButton action;
+
+    void initiate(string name, bool useInFight, Type type, Position position, int base);
+    Item* copy();
 };
 
