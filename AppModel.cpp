@@ -1,6 +1,7 @@
 #include "appModel.h"
 
 Player* AppModel::player = NULL;
+Item* AppModel::itens = NULL;
 saveSlots AppModel::slots[3];
 stageInfo* AppModel::stages = NULL;
 int AppModel::saveSlot = NULL;
@@ -65,10 +66,56 @@ void AppModel::saveBinary()
 
 void AppModel::load()
 {
+    ifstream itensFile(itemData);
+
+    if (itensFile.is_open()) {
+        int itensVectorSize;
+        char breakPoint;
+        string read;
+
+        itensFile >> itensVectorSize;
+        itens = new Item[itensVectorSize];
+
+        for (int i = 0; i < itensVectorSize; i++)
+        {
+            vector<string> itemInfo;
+
+            itensFile >> read;
+            itemInfo = explode(read, ';');
+
+            bool combat;
+            combat = itemInfo[1].at(0) == '1' ? true : false;
+
+            Type auxType;
+            auxType = static_cast<Type>(stoi(itemInfo[2]));
+
+            Position auxPosition;
+            auxPosition = static_cast<Position>(stoi(itemInfo[3]));
+
+            itens[i].initiate(
+                itemInfo[0],
+                combat,
+                auxType,
+                auxPosition,
+                stoi(itemInfo[4])
+            );
+
+            itensFile >> breakPoint;
+
+            if (breakPoint ==  '#') {
+                continue;
+            }
+            else if (breakPoint == '&') {
+                break;
+            }
+        }
+    }
+
     ifstream load(stageData);
 
     if (load.is_open()) {
         int actualStage = 0;
+        int nivel, ident, value;
         char type;
         string read;
 
@@ -76,7 +123,6 @@ void AppModel::load()
         stages = new stageInfo[stageVectorSize];
 
         do {
-            int nivel, ident, value;
             string description;
 
             load >> read;
@@ -105,7 +151,6 @@ void AppModel::load()
             load >> read;
 
             vector<string> monsterInfo;
-            vector<string> itemInfo;
 
             if (read == "M:") {
                 load >> read;
@@ -120,13 +165,18 @@ void AppModel::load()
                 stages[actualStage].enemy->setFirePower(stoi(monsterInfo[5]));
 
                 stages[actualStage].enemy->create();
+
+                load >> read;
             }
 
-            load >> read;
-
             if (read == "I:") {
-                load >> read;
-                itemInfo = explode(read, ';');
+                int idItem;
+                load >> idItem;
+
+                if (idItem >= 0) {
+                    stages[actualStage].item = itens[idItem].copy();
+                }
+
             }
 
             load >> read;

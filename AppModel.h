@@ -14,6 +14,7 @@ using namespace std;
 
 const string gameData = "saveData.bee";
 const string stageData = "stages.txt";
+const string itemData = "itens.txt";
 
 struct saveSlots {
     int slot;
@@ -32,7 +33,8 @@ struct stageInfo {
     char type;
     string description;
     option options[3];
-    Enemy* enemy;
+    Enemy* enemy = NULL;
+    Item* item = NULL;
 };
 
 class AppModel
@@ -50,6 +52,7 @@ public:
     void checkSlots();
 
     static Player* player;
+    static Item* itens;
     static saveSlots slots[3];
     static stageInfo* stages;
     static int saveSlot;
