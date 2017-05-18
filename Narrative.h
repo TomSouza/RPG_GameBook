@@ -39,6 +39,7 @@ private:
 
     bool paused = false;
     PauseMenu* pause = NULL;
+    BotaoSprite pauseButton;
 
     void history();
     void battle();

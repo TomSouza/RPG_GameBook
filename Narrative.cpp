@@ -5,7 +5,16 @@ Narrative::Narrative()
     model.load();
     setStage(1);
 
-	gRecursos.carregarSpriteSheet("options", "assets/buttons/option.png", 3, 1);
+    gRecursos.carregarSpriteSheet("pause", "assets/buttons/pause.png");
+    pauseButton.setSpriteSheet("pause");
+
+    pauseButton.setPos(
+        gJanela.getLargura() / 2 - 350,
+        gJanela.getAltura() / 2 - 80
+    );
+
+	gRecursos.carregarSpriteSheet("options", "assets/buttons/option.png", 3, 1);    
+
 	gRecursos.carregarSpriteSheet("div", "assets/bg/narrativeDivision.png");
     gRecursos.carregarSpriteSheet("enemyLabel", "assets/bg/enemyLabel.png");
 
@@ -69,6 +78,10 @@ void Narrative::start()
 
 void Narrative::finish()
 {
+    started = false;
+    pause->setNewGame(false);
+    pause->setInGame(false);
+    paused = false;
 }
 
 Scenes Narrative::update()
@@ -80,7 +93,7 @@ Scenes Narrative::update()
     }
 
     if (paused) {
-        pause->update();
+        sceneChange = pause->update();
         return sceneChange;
     }
 
@@ -154,6 +167,12 @@ void Narrative::draw()
         gJanela.getLargura() / 2 - 350,
         gJanela.getAltura() / 2 - 250
     );
+
+    pauseButton.atualizar();
+    if (pauseButton.estaClicado() == true) {
+        paused = !paused;
+    }
+    pauseButton.desenhar();
 }
 
 void Narrative::history()
@@ -168,7 +187,6 @@ void Narrative::history()
     for (int i = 0; i < 3; i++)
     {
         if (options[i].optValue) {
-
             options[i].button.atualizar();
 
             verifyButtons(i);
