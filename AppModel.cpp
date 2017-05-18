@@ -100,6 +100,8 @@ void AppModel::load()
                 stoi(itemInfo[4])
             );
 
+            itens[i].id = static_cast<ItemIndex>(i);
+
             itensFile >> breakPoint;
 
             if (breakPoint ==  '#') {
@@ -249,7 +251,7 @@ void AppModel::checkSlots()
             load.read(reinterpret_cast<char*>(&verify), sizeof(int));
         }
 
-        if (verify) {
+        if (verify > 0) {
             char *nameBuffer = new char[verify];
 
             if (load) {
@@ -290,6 +292,23 @@ void AppModel::savePlayer(ofstream& save)
     insertInteger(save, player->getHp());
     insertInteger(save, player->getMp());
 
+    Item* back = player->inventory->getBackpack();
+    Item* equip = player->inventory->getEquipped();
+    
+    for (int i = 0; i < 6; i++)
+    {
+        insertItemIndex(save, back[i].id);
+        insertItemType(save, back[i].type);
+        insertInteger(save, back[i].modifier);
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        insertItemIndex(save, equip[i].id);
+        insertItemType(save, equip[i].type);
+        insertInteger(save, equip[i].modifier);
+    }
+
     insertClass(save, player->playerClass);
 }
 
@@ -312,6 +331,44 @@ void AppModel::loadPlayer(ifstream & load)
 
     load.read(reinterpret_cast<char*> (&hp), sizeof(int));
     load.read(reinterpret_cast<char*> (&mp), sizeof(int));
+
+    for (int i = 0; i < 6; i++)
+    {
+        ItemIndex id;
+        Type type;
+        Item item;
+        int mod;
+
+        load.read(reinterpret_cast<char*> (&id), sizeof(ItemIndex));
+        load.read(reinterpret_cast<char*> (&type), sizeof(Type));
+        load.read(reinterpret_cast<char*> (&mod), sizeof(int));
+
+        if (id >= 0 && type != EMPTY) {
+            item = itens[id];
+            item.modifier = mod;
+            player->inventory->pickUp(item);
+        }
+    }
+
+    Item equips[5];
+    for (int i = 0; i < 5; i++)
+    {
+        ItemIndex id;
+        Type type;
+        int mod;
+
+        load.read(reinterpret_cast<char*> (&id), sizeof(ItemIndex));
+        load.read(reinterpret_cast<char*> (&type), sizeof(Type));
+        load.read(reinterpret_cast<char*> (&mod), sizeof(int));        
+
+        if (id >= 0 && type != EMPTY) {
+            equips[i] = itens[id];
+            equips[i].modifier = mod;
+        }
+    }
+    
+    player->inventory->setEquipped(equips);
+    player->inventory->initPositions();
 
     load.read(reinterpret_cast<char*> (&playerClass), sizeof(Class));
 
@@ -346,6 +403,16 @@ void AppModel::insertInteger(ofstream& streamer, int value)
 void AppModel::insertClass(ofstream & streamer, Class value)
 {
     streamer.write(reinterpret_cast<const char*> (&value), sizeof(Class));
+}
+
+void AppModel::insertItemIndex(ofstream & streamer, ItemIndex value)
+{
+    streamer.write(reinterpret_cast<const char*> (&value), sizeof(ItemIndex));
+}
+
+void AppModel::insertItemType(ofstream & streamer, Type value)
+{
+    streamer.write(reinterpret_cast<const char*> (&value), sizeof(Type));
 }
 
 string AppModel::fillBlankSpaces(string string, int size)

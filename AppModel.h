@@ -61,7 +61,7 @@ public:
 
 private:
     int maxSaves = 3;
-    int slotBites = 64;
+    int slotBites = 196;
 
     void savePlayer(ofstream& save);
     void loadPlayer(ifstream& load);
@@ -69,6 +69,8 @@ private:
     void insertString(ofstream& streamer, string value, int size);
     void insertInteger(ofstream& streamer, int value);
     void insertClass(ofstream& streamer, Class value);
+    void insertItemIndex(ofstream& streamer, ItemIndex value);
+    void insertItemType(ofstream& streamer, Type value);
 
     string fillBlankSpaces(string, int);
 };
