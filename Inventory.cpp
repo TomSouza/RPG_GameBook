@@ -3,6 +3,7 @@
 Inventory::Inventory(int slots)
 {
     backpack = new Item[slots];
+    this->slots = slots;
 
     int posX = gJanela.getLargura() / 2 + 32;
     int posY = gJanela.getAltura() / 2 - 42;
@@ -13,7 +14,6 @@ Inventory::Inventory(int slots)
             posX = gJanela.getLargura() / 2 + 32;
         }
 
-        backpack[i].action.button.setSpriteSheet("sword");
         backpack[i].action.button.setPos(posX, posY);
         backpack[i].action.label.setFonte("buttonFont");
 
@@ -73,7 +73,7 @@ Inventory::~Inventory()
 void Inventory::backpackClick(int pos)
 {
     if (backpack[pos].action.button.estaClicado() == true) {
-        if (backpack[pos].type == WEAPON) {
+        if (backpack[pos].type == EQUIPPABLE) {
             if (equipped[RIGHT_HAND -1].type == EMPTY) {
                 itemButton foo = equipped[RIGHT_HAND - 1].action;
 
@@ -153,7 +153,10 @@ bool Inventory::pickUp(Item newItem)
         return false;
     }
 
+    itemButton foo = backpack[empty].action;
+    foo.button.setSpriteSheet(newItem.name);
     backpack[empty] = newItem;
+    backpack[empty].action = foo;
 
 }
 
