@@ -28,7 +28,6 @@ MainMenu::MainMenu()
         gJanela.getLargura() / 2,
         gJanela.getAltura() / 2 + 100
     );
-
     model.checkSlots();
 }
 
@@ -38,9 +37,10 @@ MainMenu::~MainMenu()
 
 void MainMenu::start()
 {
+    model.checkSlots();
     sceneChange = KEEP;
     started = true;
-    AppModel::player = NULL;
+    AppModel::player = NULL;    
 }
 
 void MainMenu::finish()
