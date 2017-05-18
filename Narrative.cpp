@@ -255,9 +255,8 @@ void Narrative::setButtonPosition()
                     gJanela.getLargura() / 2 + marginX,
                     gJanela.getAltura() / 2 + marginY
                 );
-
-                marginX += 200;
             }
+            marginX += 200;
         }
 
         battleOptions[0].label.setString("Atacar");
@@ -276,11 +275,10 @@ void Narrative::setButtonPosition()
                     gJanela.getLargura() / 2 + margin,
                     gJanela.getAltura() / 2 + 240
                 );
-
-                options[i].optValue = stageInfo->options[i].value;
-
-                margin += 150;
             }
+            margin += 150;
+
+            options[i].optValue = stageInfo->options[i].value;
 
             options[i].label.setString(
                 stageInfo->options[i].description
