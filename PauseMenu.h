@@ -50,6 +50,7 @@ private:
     Texto remainingPoints;
 
     Texto playerName;
+    Texto playerHealth;
     Texto nameLabel;
     Sprite nameinput;
 
@@ -66,5 +67,8 @@ private:
     Screens actualScreen;
     BotaoSprite tabs[3];
     Texto tabsLabel[3];
+
+    actionButton saveActual;
+    actionButton mainMenu;
 };
 

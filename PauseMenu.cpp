@@ -18,6 +18,28 @@ PauseMenu::PauseMenu()
 
     gRecursos.carregarSpriteSheet("tabs", "assets/buttons/option.png", 3, 1);
 
+    playerHealth.setFonte("gameFont");
+    playerHealth.setCor(0, 0, 0, 255, true);
+
+    saveActual.button.setSpriteSheet("load");
+    saveActual.button.setPos(
+        gJanela.getLargura() / 2,
+        gJanela.getAltura() / 2 - 50
+    );
+    saveActual.label.setFonte("gameFont");
+    saveActual.label.setCor(0, 0, 0, 255, true);
+    saveActual.label.setString("Salvar");
+
+    mainMenu.button.setSpriteSheet("load");
+    mainMenu.button.setPos(
+        gJanela.getLargura() / 2,
+        gJanela.getAltura() / 2 + 50
+
+    );
+    mainMenu.label.setFonte("gameFont");
+    mainMenu.label.setCor(0, 0, 0, 255, true);
+    mainMenu.label.setString("Menu Inicial");
+
     int pos = -100;
     int tabPosX = -230;
 
@@ -68,10 +90,14 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::start()
 {
+    sceneChange = KEEP;
+    started = true;
 }
 
 void PauseMenu::finish()
 {
+    sceneChange = KEEP;
+    started = false;
 }
 
 Scenes PauseMenu::update()
@@ -243,6 +269,34 @@ void PauseMenu::status()
 
 void PauseMenu::dataManager()
 {
+    if (inGame) {
+        saveActual.button.atualizar();
+
+        if (saveActual.button.estaClicado() == true) {
+            model.saveBinary();
+        }
+
+        saveActual.button.desenhar();
+        saveActual.label.desenhar(
+            saveActual.button.getX(),
+            saveActual.button.getY()
+        );
+
+        mainMenu.button.atualizar();
+
+        if (mainMenu.button.estaClicado() == true) {
+            sceneChange = MAIN_MENU;
+        }
+
+        mainMenu.button.desenhar();
+        mainMenu.label.desenhar(
+            mainMenu.button.getX(),
+            mainMenu.button.getY()
+        );
+
+        return;
+    }
+
     for (int i = 0; i < 3; i++) {
         saveLoad[i].atualizar();
 
@@ -263,13 +317,6 @@ void PauseMenu::dataManager()
             AppModel::saveSlot = i;
             model.loadBinary();
             sceneChange = NARRATIVE;
-        }
-        else if (
-            saveLoad[i].estaClicado() && 
-            !AppModel::slots[i].empty &&
-            inGame && AppModel::saveSlot == i
-        ) {
-            model.saveBinary();
         }
 
         saveLoad[i].desenhar();
@@ -484,6 +531,14 @@ void PauseMenu::showAttributes()
         break;
     default:
         break;
+    }
+
+    if (inGame) {
+        playerHealth.setString("HP : " + to_string(player[0]->getHp()));
+        playerHealth.desenhar(
+            gJanela.getLargura() / 2 + 200,
+            gJanela.getAltura() / 2 - 100
+        );
     }
 }
 
