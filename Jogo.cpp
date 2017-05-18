@@ -12,6 +12,9 @@ Jogo::~Jogo()
 
 void Jogo::inicializar()
 {    
+    gRecursos.carregarSpriteSheet("sword", "assets/itens/sword.png", 3, 1);
+    gRecursos.carregarSpriteSheet("key", "assets/itens/key.png", 3, 1);
+
     sceneManager->setScene(INTRO);
 }
 

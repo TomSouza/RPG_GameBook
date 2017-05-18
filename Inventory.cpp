@@ -2,8 +2,6 @@
 
 Inventory::Inventory(int slots)
 {
-    gRecursos.carregarSpriteSheet("sword", "assets/itens/sword.png", 3, 1);
-
     backpack = new Item[slots];
 
     int posX = gJanela.getLargura() / 2 + 32;
