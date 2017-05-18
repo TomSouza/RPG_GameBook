@@ -9,6 +9,10 @@ struct itemButton {
     Texto label;
 };
 
+enum ItemIndex {
+    KEY, SWORD
+};
+
 enum Type {
     EMPTY, EQUIPPABLE, CONSUMABLE
 };
@@ -32,6 +36,7 @@ public:
     int modifier = 0;
     bool useInFight = false;
 
+    ItemIndex id;
     string name;
     string description;
     Type type = EMPTY;
